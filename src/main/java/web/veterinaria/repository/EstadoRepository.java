@@ -1,4 +1,7 @@
 package web.veterinaria.repository;
 
-public class EstadoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import web.veterinaria.entity.Estado;
+
+public interface EstadoRepository extends JpaRepository<Estado, Long> {
 }
