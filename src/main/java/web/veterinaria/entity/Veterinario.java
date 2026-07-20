@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Veterinario")
+@Table(name = "veterinario")
 public class Veterinario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdVeterinario")
-    private long IdVeterinario;
+    private Long IdVeterinario;
 
     @Column(name = "NombreVeterinario")
     private String NombreVeterinario;
@@ -30,6 +30,7 @@ public class Veterinario {
     @Column(name = "NumeroColegiatura")
     private String NumeroColegiatura;
 
-    @Column(name = "IdEstado")
-    private int IdEstado;
+    @ManyToOne
+    @JoinColumn(name = "IdEstado", nullable = false)
+    private Estado estado;
 }
