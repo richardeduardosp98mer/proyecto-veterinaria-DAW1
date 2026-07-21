@@ -12,15 +12,15 @@ public class Cita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdCita")
-    private Long IdCita;
+    private Long idCita;
 
     @Column(name = "FechaHora")
-    private LocalDateTime FechaHora = LocalDateTime.now();
+    private LocalDateTime fechaHora = LocalDateTime.now();
 
     @Column(name = "Observaciones")
-    private String Observaciones;
+    private String observaciones;
 
-    private LocalDateTime FechaRegistro = LocalDateTime.now();
+    private LocalDateTime fechaRegistro = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "IdMascota", nullable = false)

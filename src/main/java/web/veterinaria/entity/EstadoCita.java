@@ -11,8 +11,8 @@ public class EstadoCita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdEstadoCita")
-    private Long IdEstadoCita;
+    private Long idEstadoCita;
 
     @Column(name = "NombreEstado", nullable = false)
-    private String NombreEstado;
+    private String nombreEstado;
 }

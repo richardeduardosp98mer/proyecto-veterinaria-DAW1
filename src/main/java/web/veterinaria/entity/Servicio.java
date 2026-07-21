@@ -10,19 +10,19 @@ public class Servicio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdServicio")
-    private Long IdServicio;
+    private Long idServicio;
 
     @Column(name = "NombreServicio")
-    private String NombreServicio;
+    private String nombreServicio;
 
     @Column(name = "Descripcion")
-    private String Descripcion;
+    private String descripcion;
 
     @Column(name = "Precio")
-    private Double Precio;
+    private Double precio;
 
     @Column(name = "DuracionMinutos")
-    private int DuracionMinutos;
+    private int duracionMinutos;
 
     @ManyToOne
     @JoinColumn(name = "IdEstado", nullable = false)

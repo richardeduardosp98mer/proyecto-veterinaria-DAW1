@@ -10,25 +10,25 @@ public class Veterinario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdVeterinario")
-    private Long IdVeterinario;
+    private Long idVeterinario;
 
     @Column(name = "NombreVeterinario")
-    private String NombreVeterinario;
+    private String nombreVeterinario;
 
     @Column(name = "ApellidoVeterinario")
-    private String ApellidoVeterinario;
+    private String apellidoVeterinario;
 
     @Column(name = "Especialidad")
-    private String Especialidad;
+    private String especialidad;
 
     @Column(name = "Telefono")
-    private String Telefono;
+    private String telefono;
 
     @Column(name = "Email")
-    private String Email;
+    private String email;
 
     @Column(name = "NumeroColegiatura")
-    private String NumeroColegiatura;
+    private String numeroColegiatura;
 
     @ManyToOne
     @JoinColumn(name = "IdEstado", nullable = false)

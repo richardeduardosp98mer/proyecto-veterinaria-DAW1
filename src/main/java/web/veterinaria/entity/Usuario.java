@@ -12,16 +12,16 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdUsuario")
-    private Long IdUsuario;
+    private Long idUsuario;
 
     @Column(name = "Correo")
-    private String Correo;
+    private String correo;
 
     @Column(name = "Clave")
-    private String Clave;
+    private String clave;
 
     @Column(name = "FechaCreacion")
-    private LocalDateTime FechaCreacion = LocalDateTime.now();
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "IdRol", nullable = false)

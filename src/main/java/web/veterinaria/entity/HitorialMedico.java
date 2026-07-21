@@ -12,25 +12,25 @@ public class HitorialMedico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdHistorial")
-    private Long IdHistorial;
+    private Long idHistorial;
 
     @Column(name = "FechaConsulta")
-    private LocalDateTime FechaConsulta = LocalDateTime.now();
+    private LocalDateTime fechaConsulta = LocalDateTime.now();
 
     @Column(name = "Diagnostico")
-    private String Diagnostico;
+    private String diagnostico;
 
     @Column(name = "Tratamiento")
-    private String Tratamiento;
+    private String tratamiento;
 
     @Column(name = "Peso")
-    private Double Peso;
+    private Double peso;
 
     @Column(name = "Temperatura")
-    private Double Temperatura;
+    private Double temperatura;
 
     @Column(name = "Observaciones")
-    private String Observaciones;
+    private String observaciones;
 
     @ManyToOne
     @JoinColumn(name = "IdMascota", nullable = false)

@@ -12,25 +12,25 @@ public class Mascota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdMascota")
-    private Long IdMascota;
+    private Long idMascota;
 
     @Column(name = "NombreMascota")
-    private String NombreMascota;
+    private String nombreMascota;
 
     @Column(name = "Raza")
-    private String Raza;
+    private String raza;
 
     @Column(name = "FechaNacimiento")
-    private LocalDate FechaNacimiento = LocalDate.now();
+    private LocalDate fechaNacimiento = LocalDate.now();
 
     @Column(name = "Sexo")
-    private String Sexo;
+    private String sexo;
 
     @Column(name = "Peso")
-    private Double Peso;
+    private Double peso;
 
     @Column(name = "Observaciones")
-    private String Observaciones;
+    private String observaciones;
 
     @ManyToOne
     @JoinColumn(name = "IdCliente", nullable = false)
