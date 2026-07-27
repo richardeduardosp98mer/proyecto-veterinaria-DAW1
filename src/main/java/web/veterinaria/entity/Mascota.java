@@ -3,6 +3,7 @@ package web.veterinaria.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -14,22 +15,22 @@ public class Mascota {
     @Column(name = "IdMascota")
     private Long idMascota;
 
-    @Column(name = "NombreMascota")
+    @Column(name = "NombreMascota", nullable = false, length = 100)
     private String nombreMascota;
 
-    @Column(name = "Raza")
+    @Column(name = "Raza", length = 100)
     private String raza;
 
     @Column(name = "FechaNacimiento")
-    private LocalDate fechaNacimiento = LocalDate.now();
+    private LocalDate fechaNacimiento;
 
-    @Column(name = "Sexo")
+    @Column(name = "Sexo", columnDefinition = "CHAR(1)")
     private String sexo;
 
-    @Column(name = "Peso")
-    private Double peso;
+    @Column(name = "Peso", precision = 6, scale = 2)
+    private BigDecimal peso;
 
-    @Column(name = "Observaciones")
+    @Column(name = "Observaciones", length = 500)
     private String observaciones;
 
     @ManyToOne

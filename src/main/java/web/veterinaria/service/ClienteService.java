@@ -26,7 +26,7 @@ public class ClienteService {
     }
 
     public List<Cliente> buscar(String nombre){
-        return clienteRepository.findByNombreCliente(nombre);
+        return clienteRepository.findByUsuario_Nombre(nombre);
     }
 
     public Cliente registrar(Cliente cliente) {

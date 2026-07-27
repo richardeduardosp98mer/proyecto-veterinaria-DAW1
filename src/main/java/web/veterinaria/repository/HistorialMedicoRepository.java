@@ -1,7 +1,7 @@
 package web.veterinaria.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import web.veterinaria.entity.HitorialMedico;
+import web.veterinaria.entity.HistorialMedico;
 
-public interface HistorialMedicoRepository extends JpaRepository<HitorialMedico, Long> {
+public interface HistorialMedicoRepository extends JpaRepository<HistorialMedico, Long> {
 }

@@ -3,33 +3,34 @@ package web.veterinaria.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "historialmedico")
-public class HitorialMedico {
+public class HistorialMedico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdHistorial")
     private Long idHistorial;
 
-    @Column(name = "FechaConsulta")
+    @Column(name = "FechaConsulta", nullable = false)
     private LocalDateTime fechaConsulta = LocalDateTime.now();
 
-    @Column(name = "Diagnostico")
+    @Column(name = "Diagnostico", length = 500)
     private String diagnostico;
 
-    @Column(name = "Tratamiento")
+    @Column(name = "Tratamiento", length = 500)
     private String tratamiento;
 
-    @Column(name = "Peso")
-    private Double peso;
+    @Column(name = "Peso", precision = 6, scale = 2)
+    private BigDecimal peso;
 
-    @Column(name = "Temperatura")
-    private Double temperatura;
+    @Column(name = "Temperatura", precision = 4, scale = 1)
+    private BigDecimal temperatura;
 
-    @Column(name = "Observaciones")
+    @Column(name = "Observaciones", length = 500)
     private String observaciones;
 
     @ManyToOne
@@ -41,6 +42,6 @@ public class HitorialMedico {
     private Veterinario veterinario;
 
     @ManyToOne
-    @JoinColumn(name = "IdCita", nullable = false)
+    @JoinColumn(name = "IdCita")
     private Cita cita;
 }
