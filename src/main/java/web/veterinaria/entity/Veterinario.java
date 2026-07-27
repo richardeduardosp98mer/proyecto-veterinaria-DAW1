@@ -12,25 +12,13 @@ public class Veterinario {
     @Column(name = "IdVeterinario")
     private Long idVeterinario;
 
-    @Column(name = "NombreVeterinario")
-    private String nombreVeterinario;
+    @OneToOne
+    @JoinColumn(name = "IdUsuario", nullable = false, unique = true)
+    private Usuario usuario;
 
-    @Column(name = "ApellidoVeterinario")
-    private String apellidoVeterinario;
-
-    @Column(name = "Especialidad")
+    @Column(name = "Especialidad", length = 100)
     private String especialidad;
 
-    @Column(name = "Telefono")
-    private String telefono;
-
-    @Column(name = "Email")
-    private String email;
-
-    @Column(name = "NumeroColegiatura")
+    @Column(name = "NumeroColegiatura", length = 30)
     private String numeroColegiatura;
-
-    @ManyToOne
-    @JoinColumn(name = "IdEstado", nullable = false)
-    private Estado estado;
 }

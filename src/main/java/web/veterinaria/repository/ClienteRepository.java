@@ -6,5 +6,5 @@ import web.veterinaria.entity.Cliente;
 import java.util.List;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    List<Cliente> findByNombreCliente(String nombreCliente);
+    List<Cliente> findByUsuario_Nombre(String nombre);
 }
