@@ -2,9 +2,14 @@ package web.veterinaria.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import web.veterinaria.dto.UsuarioRegistroRequest;
+import web.veterinaria.dto.UsuarioResponse;
+import web.veterinaria.entity.Estado;
+import web.veterinaria.entity.Rol;
 import web.veterinaria.entity.Usuario;
 import web.veterinaria.service.UsuarioService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,22 +23,56 @@ public class UsuarioController {
     }
 
     @PostMapping("/registro")
-    public ResponseEntity<Usuario> registrar(@RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioResponse> registrar(@RequestBody UsuarioRegistroRequest request) {
+        Usuario usuario = new Usuario();
+        usuario.setNombre(request.getNombre());
+        usuario.setApellido(request.getApellido());
+        usuario.setCorreo(request.getCorreo());
+        usuario.setClave(request.getClave());
+        usuario.setCelular(request.getCelular());
+
+        Rol rol = new Rol();
+        rol.setIdRol(request.getIdRol());
+        usuario.setRol(rol);
+
+        Estado activo = new Estado();
+        activo.setIdEstado(1L);
+        usuario.setEstado(activo);
+
         Usuario guardado = usuarioService.registrar(usuario);
-        return ResponseEntity.ok(guardado);
+        return ResponseEntity.ok(aResponse(guardado));
     }
 
     @GetMapping
-    public List<Usuario> listar() {
-        return usuarioService.listar();
+    public List<UsuarioResponse> listar() {
+        List<Usuario> usuarios = usuarioService.listar();
+        List<UsuarioResponse> respuestas = new ArrayList<>();
+
+        for (Usuario usuario : usuarios) {
+            respuestas.add(aResponse(usuario));
+        }
+
+        return respuestas;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> obtener(@PathVariable Long id) {
+    public ResponseEntity<UsuarioResponse> obtener(@PathVariable Long id) {
         Usuario usuario = usuarioService.obtener(id);
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(aResponse(usuario));
+    }
+
+    private UsuarioResponse aResponse(Usuario usuario) {
+        return new UsuarioResponse(
+                usuario.getIdUsuario(),
+                usuario.getNombre(),
+                usuario.getApellido(),
+                usuario.getCorreo(),
+                usuario.getCelular(),
+                usuario.getRol().getTipoRol(),
+                usuario.getEstado().getTipoEstado()
+        );
     }
 }
