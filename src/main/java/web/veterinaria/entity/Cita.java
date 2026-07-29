@@ -14,12 +14,13 @@ public class Cita {
     @Column(name = "IdCita")
     private Long idCita;
 
-    @Column(name = "FechaHora")
-    private LocalDateTime fechaHora = LocalDateTime.now();
+    @Column(name = "FechaHora", nullable = false)
+    private LocalDateTime fechaHora;
 
-    @Column(name = "Observaciones")
+    @Column(name = "Observaciones", length = 500)
     private String observaciones;
 
+    @Column(name = "FechaRegistro", nullable = false)
     private LocalDateTime fechaRegistro = LocalDateTime.now();
 
     @ManyToOne
@@ -29,10 +30,6 @@ public class Cita {
     @ManyToOne
     @JoinColumn(name = "IdVeterinario", nullable = false)
     private Veterinario veterinario;
-
-    @ManyToOne
-    @JoinColumn(name = "IdServicio", nullable = false)
-    private Servicio servicio;
 
     @ManyToOne
     @JoinColumn(name = "IdEstadoCita", nullable = false)
