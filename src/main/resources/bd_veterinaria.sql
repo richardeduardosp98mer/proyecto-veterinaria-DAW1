@@ -1,6 +1,16 @@
 -- ============================================================
--- BASE DE DATOS: VeterinariaDB (versión MySQL 8.0+)
+-- BASE DE DATOS: VeterinariaDB (versión MySQL)
+-- Ajustes aplicados:
+--   - Todas las PK/FK migradas de INT a BIGINT (consistente con Long en JPA)
+--   - Usuario ahora es la tabla padre: Nombre, Apellido, Correo, Clave,
+--     Celular, IdRol, IdEstado
+--   - Cliente y Veterinario referencian a Usuario mediante IdUsuario
+--     (UNIQUE => relación 1 a 1), ya no contienen Nombre/Apellido/
+--     Email/Telefono/IdEstado
+--   - Cliente y Veterinario ya no tienen FechaRegistro (se usa
+--     Usuario.FechaCreacion)
 -- ============================================================
+
 DROP DATABASE IF EXISTS VeterinariaDB;
 
 CREATE DATABASE IF NOT EXISTS VeterinariaDB
@@ -13,84 +23,87 @@ USE VeterinariaDB;
 -- TABLA: Estado (Activo - Inactivo)
 -- ============================================================
 CREATE TABLE Estado (
-                        IdEstado        INT AUTO_INCREMENT PRIMARY KEY,
-                        TipoEstado      VARCHAR(50) NOT NULL
+   IdEstado        BIGINT AUTO_INCREMENT PRIMARY KEY,
+   TipoEstado      VARCHAR(50) NOT NULL
 ) ENGINE=InnoDB;
 
 -- ============================================================
 -- TABLA: Rol (Admin - Veterinario - Cliente)
 -- ============================================================
 CREATE TABLE Rol (
-    IdRol       INT AUTO_INCREMENT PRIMARY KEY,
-    TipoRol     VARCHAR(50) NOT NULL
+   IdRol       BIGINT AUTO_INCREMENT PRIMARY KEY,
+   TipoRol     VARCHAR(50) NOT NULL
 ) ENGINE=InnoDB;
 
 -- ============================================================
--- TABLA: Cliente (dueños de mascotas)
+-- TABLA: EstadoCita
 -- ============================================================
-CREATE TABLE Cliente (
-   IdCliente        INT AUTO_INCREMENT PRIMARY KEY,
-   NombreCliente    VARCHAR(100)   NOT NULL,
-   ApellidoCliente  VARCHAR(100)   NOT NULL,
-   DNI              VARCHAR(8)     NOT NULL UNIQUE,
-   Telefono         VARCHAR(9)     NULL,
-   Email            VARCHAR(150)   NULL,
-   Direccion        VARCHAR(200)   NULL,
-   FechaRegistro    DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   IdEstado         INT            NOT NULL DEFAULT 1,
-   CONSTRAINT FK_Cliente_Estado FOREIGN KEY (IdEstado) REFERENCES Estado(IdEstado)
-) ENGINE=InnoDB;
-
--- ============================================================
--- TABLA: Veterinario
--- ============================================================
-CREATE TABLE Veterinario (
-   IdVeterinario        INT AUTO_INCREMENT PRIMARY KEY,
-   NombreVeterinario    VARCHAR(100)  NOT NULL,
-   ApellidoVeterinario  VARCHAR(100)  NOT NULL,
-   Especialidad         VARCHAR(100)  NULL,
-   Telefono             VARCHAR(20)   NULL,
-   Email                VARCHAR(150)  NULL,
-   NumeroColegiatura    VARCHAR(30)   NULL,
-   IdEstado             INT           NOT NULL DEFAULT 1,
-   CONSTRAINT FK_Veterinario_Estado FOREIGN KEY (IdEstado) REFERENCES Estado(IdEstado)
+CREATE TABLE EstadoCita (
+   IdEstadoCita    BIGINT AUTO_INCREMENT PRIMARY KEY,
+   NombreEstado    VARCHAR(50) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 
 -- ============================================================
 -- TABLA: Especies
 -- ============================================================
 CREATE TABLE Especie (
-   IdEspecie      INT AUTO_INCREMENT PRIMARY KEY,
+   IdEspecie      BIGINT AUTO_INCREMENT PRIMARY KEY,
    NombreEspecie  VARCHAR(50) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+
+-- ============================================================
+-- TABLA: Usuario (autenticación + datos personales base)
+-- ============================================================
+CREATE TABLE Usuario (
+   IdUsuario        BIGINT AUTO_INCREMENT PRIMARY KEY,
+   Nombre           VARCHAR(100)    NOT NULL,
+   Apellido         VARCHAR(100)    NOT NULL,
+   Correo           VARCHAR(50)     NOT NULL UNIQUE,
+   Clave            VARCHAR(256)    NOT NULL,
+   Celular          VARCHAR(9)      NULL,
+   IdRol            BIGINT          NOT NULL DEFAULT 3, -- 1=Admin, 2=Veterinario, 3=Cliente
+   IdEstado         BIGINT          NOT NULL DEFAULT 1,
+   FechaCreacion    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   CONSTRAINT FK_Usuario_Rol FOREIGN KEY (IdRol) REFERENCES Rol(IdRol),
+   CONSTRAINT FK_Usuario_Estado FOREIGN KEY (IdEstado) REFERENCES Estado(IdEstado)
+) ENGINE=InnoDB;
+
+-- ============================================================
+-- TABLA: Cliente (dueños de mascotas)
+-- ============================================================
+CREATE TABLE Cliente (
+   IdCliente        BIGINT AUTO_INCREMENT PRIMARY KEY,
+   IdUsuario        BIGINT         NOT NULL UNIQUE,
+   DNI              VARCHAR(8)     NOT NULL UNIQUE,
+   Direccion        VARCHAR(200)   NULL,
+   CONSTRAINT FK_Cliente_Usuario FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
+) ENGINE=InnoDB;
+
+-- ============================================================
+-- TABLA: Veterinario
+-- ============================================================
+CREATE TABLE Veterinario (
+   IdVeterinario        BIGINT AUTO_INCREMENT PRIMARY KEY,
+   IdUsuario            BIGINT        NOT NULL UNIQUE,
+   Especialidad         VARCHAR(100)  NULL,
+   NumeroColegiatura    VARCHAR(30)   NULL,
+   CONSTRAINT FK_Veterinario_Usuario FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
 ) ENGINE=InnoDB;
 
 -- ============================================================
 -- TABLA: Mascotas
 -- ============================================================
-CREATE TABLE Servicio (
-   IdServicio        INT AUTO_INCREMENT PRIMARY KEY,
-   NombreServicio    VARCHAR(100)   NOT NULL,
-   Descripcion       VARCHAR(300)   NULL,
-   Precio            DECIMAL(8,2)   NOT NULL,
-   DuracionMinutos   INT            NOT NULL DEFAULT 30,
-   IdEstado          INT            NOT NULL DEFAULT 1,
-   CONSTRAINT FK_Servicio_Estado FOREIGN KEY (IdEstado) REFERENCES Estado(IdEstado)
-) ENGINE=InnoDB;
-
--- ============================================================
--- TABLA: Servicios (catálogo)
--- ============================================================
 CREATE TABLE Mascota (
-   IdMascota        INT AUTO_INCREMENT PRIMARY KEY,
-   IdCliente        INT            NOT NULL,
-   IdEspecie        INT            NOT NULL,
+   IdMascota        BIGINT AUTO_INCREMENT PRIMARY KEY,
+   IdCliente        BIGINT         NOT NULL,
+   IdEspecie        BIGINT         NOT NULL,
    NombreMascota    VARCHAR(100)   NOT NULL,
    Raza             VARCHAR(100)   NULL,
    FechaNacimiento  DATE           NULL,
    Sexo             CHAR(1)        NULL,
    Peso             DECIMAL(6,2)   NULL,
    Observaciones    VARCHAR(500)   NULL,
-   IdEstado         INT            NOT NULL DEFAULT 1,
+   IdEstado         BIGINT         NOT NULL DEFAULT 1,
    CONSTRAINT FK_Mascotas_Clientes FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente),
    CONSTRAINT FK_Mascotas_Especies FOREIGN KEY (IdEspecie) REFERENCES Especie(IdEspecie),
    CONSTRAINT FK_Mascotas_Estado FOREIGN KEY (IdEstado) REFERENCES Estado(IdEstado),
@@ -98,27 +111,53 @@ CREATE TABLE Mascota (
 ) ENGINE=InnoDB;
 
 -- ============================================================
--- TABLA: EstadoCita
+-- TABLA: Servicios
 -- ============================================================
-CREATE TABLE EstadoCita (
-   IdEstadoCita    INT AUTO_INCREMENT PRIMARY KEY,
-   NombreEstado    VARCHAR(50) NOT NULL UNIQUE
+CREATE TABLE Servicio (
+   IdServicio        BIGINT AUTO_INCREMENT PRIMARY KEY,
+   NombreServicio    VARCHAR(100)   NOT NULL,
+   Descripcion       VARCHAR(300)   NULL,
+   Precio            DECIMAL(8,2)   NOT NULL,
+   DuracionMinutos   INT            NOT NULL DEFAULT 30,
+   IdEstado          BIGINT         NOT NULL DEFAULT 1,
+   CONSTRAINT FK_Servicio_Estado FOREIGN KEY (IdEstado) REFERENCES Estado(IdEstado)
 ) ENGINE=InnoDB;
 
 -- ============================================================
--- TABLA: Cita
+-- TABLA: Citas
 -- ============================================================
 CREATE TABLE Cita (
-   IdCita          INT AUTO_INCREMENT PRIMARY KEY,
-   IdMascota       INT            NOT NULL,
-   IdVeterinario   INT            NOT NULL,
+   IdCita          BIGINT AUTO_INCREMENT PRIMARY KEY,
+   IdMascota       BIGINT         NOT NULL,
+   IdVeterinario   BIGINT         NOT NULL,
+   IdServicio      BIGINT         NOT NULL,
    FechaHora       DATETIME       NOT NULL,
-   IdEstadoCita    INT            NOT NULL DEFAULT 1,
+   IdEstadoCita    BIGINT         NOT NULL DEFAULT 1,
    Observaciones   VARCHAR(500)   NULL,
    FechaRegistro   DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
    CONSTRAINT FK_Citas_Mascota FOREIGN KEY (IdMascota) REFERENCES Mascota(IdMascota),
    CONSTRAINT FK_Citas_Veterinario FOREIGN KEY (IdVeterinario) REFERENCES Veterinario(IdVeterinario),
+   CONSTRAINT FK_Citas_Servicio FOREIGN KEY (IdServicio) REFERENCES Servicio(IdServicio),
    CONSTRAINT FK_Citas_EstadoCita FOREIGN KEY (IdEstadoCita) REFERENCES EstadoCita(IdEstadoCita)
+) ENGINE=InnoDB;
+
+-- ============================================================
+-- TABLA: HistorialMedico
+-- ============================================================
+CREATE TABLE HistorialMedico (
+   IdHistorial      BIGINT AUTO_INCREMENT PRIMARY KEY,
+   IdMascota        BIGINT         NOT NULL,
+   IdVeterinario    BIGINT         NOT NULL,
+   IdCita           BIGINT         NULL,
+   FechaConsulta    DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   Diagnostico      VARCHAR(500)   NULL,
+   Tratamiento      VARCHAR(500)   NULL,
+   Peso             DECIMAL(6,2)   NULL,
+   Temperatura      DECIMAL(4,1)   NULL,
+   Observaciones    VARCHAR(500)   NULL,
+   CONSTRAINT FK_Historial_Mascota FOREIGN KEY (IdMascota) REFERENCES Mascota(IdMascota),
+   CONSTRAINT FK_Historial_Veterinario FOREIGN KEY (IdVeterinario) REFERENCES Veterinario(IdVeterinario),
+   CONSTRAINT FK_Historial_Cita FOREIGN KEY (IdCita) REFERENCES Cita(IdCita)
 ) ENGINE=InnoDB;
 
 -- ============================================================
@@ -163,44 +202,7 @@ CREATE TABLE Pago (
 ) ENGINE=InnoDB;
 
 -- ============================================================
--- TABLA: HistorialMedico
--- ============================================================
-CREATE TABLE HistorialMedico (
-   IdHistorial      INT AUTO_INCREMENT PRIMARY KEY,
-   IdMascota        INT            NOT NULL,
-   IdVeterinario    INT            NOT NULL,
-   IdCita           INT            NULL,
-   FechaConsulta    DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   Diagnostico      VARCHAR(500)   NULL,
-   Tratamiento      VARCHAR(500)   NULL,
-   Peso             DECIMAL(6,2)   NULL,
-   Temperatura      DECIMAL(4,1)   NULL,
-   Observaciones    VARCHAR(500)   NULL,
-   CONSTRAINT FK_Historial_Mascota FOREIGN KEY (IdMascota) REFERENCES Mascota(IdMascota),
-   CONSTRAINT FK_Historial_Veterinario FOREIGN KEY (IdVeterinario) REFERENCES Veterinario(IdVeterinario),
-   CONSTRAINT FK_Historial_Cita FOREIGN KEY (IdCita) REFERENCES Cita(IdCita)
-) ENGINE=InnoDB;
-
--- ============================================================
--- TABLA: Usuarios (multi-rol)
--- ============================================================
-CREATE TABLE Usuario (
-   IdUsuario        INT AUTO_INCREMENT PRIMARY KEY,
-   Correo           VARCHAR(50)     NOT NULL UNIQUE,
-   Clave            VARCHAR(256)    NOT NULL,
-   IdRol            INT             NOT NULL DEFAULT 3, -- 1=Admin, 2=Veterinario, 3=Cliente
-   IdCliente        INT             NULL,
-   IdVeterinario    INT             NULL,
-   IdEstado         INT             NOT NULL DEFAULT 1,
-   FechaCreacion    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   CONSTRAINT FK_Usuario_Rol FOREIGN KEY (IdRol) REFERENCES Rol(IdRol),
-   CONSTRAINT FK_Usuario_Estado FOREIGN KEY (IdEstado) REFERENCES Estado(IdEstado),
-   CONSTRAINT FK_Usuario_Cliente FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente),
-   CONSTRAINT FK_Usuario_Veterinario FOREIGN KEY (IdVeterinario) REFERENCES Veterinario(IdVeterinario)
-) ENGINE=InnoDB;
-
--- ============================================================
--- DATOS INICIALES (catálogos)
+-- INSERTANDO DATOS
 -- ============================================================
 INSERT INTO Estado (TipoEstado) VALUES ('Activo'), ('Inactivo');
 
@@ -210,16 +212,13 @@ INSERT INTO Rol (TipoRol) VALUES ('Admin'), ('Veterinario'), ('Cliente');
 
 INSERT INTO Especie (NombreEspecie) VALUES ('Perro'), ('Gato'), ('Ave'), ('Conejo'), ('Otro');
 
-INSERT INTO MetodoPago (NombreMetodoPago)
-VALUES ('Efectivo'), ('Tarjeta débito'), ('Tarjeta crédito'), ('Yape'), ('Plin'), ('Transferencia');
-
 -- ============================================================
 -- PROCEDIMIENTOS ALMACENADOS
 -- ============================================================
+
 DELIMITER $$
 
--- Listar citas por cliente (servicios agregados + total)
-DROP PROCEDURE IF EXISTS sp_ListarCitasPorCliente $$
+-- Listar citas por cliente
 CREATE PROCEDURE sp_ListarCitasPorCliente (
     IN p_IdCliente INT
 )
