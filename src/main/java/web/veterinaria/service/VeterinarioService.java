@@ -2,6 +2,7 @@ package web.veterinaria.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import web.veterinaria.dto.ActualizarVeterinarioRequest;
 import web.veterinaria.entity.Usuario;
 import web.veterinaria.entity.Veterinario;
 import web.veterinaria.repository.VeterinarioRepository;
@@ -27,6 +28,18 @@ public class VeterinarioService {
         return veterinarioRepo.findById(id).orElse(null);
     }
 
+    public List<Veterinario> buscarPorEspecialidad(String especialidad) {
+        return veterinarioRepo.findByEspecialidad(especialidad);
+    }
+
+    public Veterinario buscarPorNumeroColegiatura(String numeroColegiatura) {
+        return veterinarioRepo.findByNumeroColegiatura(numeroColegiatura).orElse(null);
+    }
+
+    public Veterinario buscarPorIdUsuario(Long idUsuario) {
+        return veterinarioRepo.findByUsuario_IdUsuario(idUsuario).orElse(null);
+    }
+
     @Transactional
     public Veterinario registrarVeterinario(Usuario datosUsuario, Veterinario datosVeterinario) {
         Usuario usuarioExistente = usuarioService.buscarPorCorreo(datosUsuario.getCorreo());
@@ -39,13 +52,17 @@ public class VeterinarioService {
         return veterinarioRepo.save(datosVeterinario);
     }
 
-    public Veterinario actualizar(Long id, Veterinario datosActualizados) {
+    @Transactional
+    public Veterinario actualizar(Long id, ActualizarVeterinarioRequest request) {
         Veterinario veterinario = veterinarioRepo.findById(id).orElse(null);
         if (veterinario == null) {
             return null;
         }
-        veterinario.setEspecialidad(datosActualizados.getEspecialidad());
-        veterinario.setNumeroColegiatura(datosActualizados.getNumeroColegiatura());
+
+        veterinario.getUsuario().setNombre(request.getNombre());
+        veterinario.getUsuario().setApellido(request.getApellido());
+        veterinario.getUsuario().setCelular(request.getCelular());
+
         return veterinarioRepo.save(veterinario);
     }
 

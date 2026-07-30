@@ -2,6 +2,7 @@ package web.veterinaria.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import web.veterinaria.dto.ActualizarVeterinarioRequest;
 import web.veterinaria.dto.RegistroVeterinarioRequest;
 import web.veterinaria.dto.VeterinarioResponse;
 import web.veterinaria.entity.Estado;
@@ -72,9 +73,28 @@ public class VeterinarioController {
         return ResponseEntity.ok(aResponse(veterinario));
     }
 
+    @GetMapping("/buscar")
+    public List<VeterinarioResponse> buscarPorEspecialidad(@RequestParam String especialidad) {
+        List<Veterinario> veterinarios = veterinarioService.buscarPorEspecialidad(especialidad);
+        List<VeterinarioResponse> respuestas = new ArrayList<>();
+        for (Veterinario veterinario : veterinarios) {
+            respuestas.add(aResponse(veterinario));
+        }
+        return respuestas;
+    }
+
+    @GetMapping("/colegiatura/{numeroColegiatura}")
+    public ResponseEntity<VeterinarioResponse> buscarPorNumeroColegiatura(@PathVariable String numeroColegiatura) {
+        Veterinario veterinario = veterinarioService.buscarPorNumeroColegiatura(numeroColegiatura);
+        if (veterinario == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(aResponse(veterinario));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<VeterinarioResponse> actualizar(@PathVariable Long id, @RequestBody Veterinario datosActualizados) {
-        Veterinario actualizado = veterinarioService.actualizar(id, datosActualizados);
+    public ResponseEntity<VeterinarioResponse> actualizar(@PathVariable Long id, @RequestBody ActualizarVeterinarioRequest request) {
+        Veterinario actualizado = veterinarioService.actualizar(id, request);
         if (actualizado == null) {
             return ResponseEntity.notFound().build();
         }

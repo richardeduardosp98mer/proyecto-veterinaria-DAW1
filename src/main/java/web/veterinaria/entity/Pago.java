@@ -38,5 +38,4 @@ public class Pago {
             fechaPago = LocalDateTime.now();
         }
     }
-
 }
