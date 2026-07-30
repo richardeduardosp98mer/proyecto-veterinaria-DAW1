@@ -2,6 +2,7 @@ package web.veterinaria.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import web.veterinaria.dto.ActualizarClienteRequest;
 import web.veterinaria.dto.ClienteResponse;
 import web.veterinaria.dto.RegistroClienteRequest;
 import web.veterinaria.entity.Cliente;
@@ -73,12 +74,32 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteResponse> actualizar(@PathVariable Long id, @RequestBody Cliente datosActualizados) {
-        Cliente actualizado = clienteService.actualizar(id, datosActualizados);
+    public ResponseEntity<ClienteResponse> actualizar(@PathVariable Long id, @RequestBody ActualizarClienteRequest request) {
+        Cliente actualizado = clienteService.actualizar(id, request);
         if (actualizado == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(aResponse(actualizado));
+    }
+
+    @GetMapping("/dni/{dni}")
+    public ResponseEntity<ClienteResponse> buscarPorDni(@PathVariable String dni) {
+        Cliente cliente = clienteService.buscarPorDni(dni);
+        if (cliente == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(aResponse(cliente));
+    }
+
+    // ClienteController.java
+    @GetMapping("/buscar")
+    public List<ClienteResponse> buscarPorNombre(@RequestParam String nombre) {
+        List<Cliente> clientes = clienteService.buscarPorNombre(nombre);
+        List<ClienteResponse> respuestas = new ArrayList<>();
+        for (Cliente cliente : clientes) {
+            respuestas.add(aResponse(cliente));
+        }
+        return respuestas;
     }
 
     @DeleteMapping("/{id}")

@@ -22,11 +22,16 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        Usuario usuario = usuarioService.login(loginRequest.getCorreo(), loginRequest.getClave());
-        if (usuario == null) {
+        String resultado = usuarioService.login(loginRequest.getCorreo(), loginRequest.getClave());
+
+        if (resultado.equals("CREDENCIALES_INVALIDAS")) {
             return ResponseEntity.status(401).body("Credenciales inválidas");
         }
+        if (resultado.equals("USUARIO_INACTIVO")) {
+            return ResponseEntity.status(403).body("Tu cuenta está desactivada. Contacta al administrador");
+        }
 
+        Usuario usuario = usuarioService.buscarPorCorreo(loginRequest.getCorreo());
         LoginResponse response = new LoginResponse(
                 usuario.getIdUsuario(),
                 usuario.getNombre(),

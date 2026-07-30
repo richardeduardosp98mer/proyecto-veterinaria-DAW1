@@ -2,6 +2,7 @@ package web.veterinaria.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import web.veterinaria.dto.ActualizarClienteRequest;
 import web.veterinaria.entity.Cliente;
 import web.veterinaria.entity.Usuario;
 import web.veterinaria.repository.ClienteRepository;
@@ -27,6 +28,18 @@ public class ClienteService {
         return clienteRepo.findById(id).orElse(null);
     }
 
+    public Cliente buscarPorDni(String dni) {
+        return clienteRepo.findByDni(dni).orElse(null);
+    }
+
+    public List<Cliente> buscarPorNombre(String nombre) {
+        return clienteRepo.findByUsuario_NombreContaining(nombre);
+    }
+
+    public Cliente buscarPorIdUsuario(Long idUsuario) {
+        return clienteRepo.findByUsuario_IdUsuario(idUsuario).orElse(null);
+    }
+
     @Transactional
     public Cliente registrarCliente(Usuario datosUsuario, Cliente datosCliente) {
         Usuario usuarioExistente = usuarioService.buscarPorCorreo(datosUsuario.getCorreo());
@@ -44,12 +57,19 @@ public class ClienteService {
         return clienteRepo.save(datosCliente);
     }
 
-    public Cliente actualizar(Long id, Cliente datosActualizados) {
+    // ClienteService.java
+    @Transactional
+    public Cliente actualizar(Long id, ActualizarClienteRequest request) {
         Cliente cliente = clienteRepo.findById(id).orElse(null);
         if (cliente == null) {
             return null;
         }
-        cliente.setDireccion(datosActualizados.getDireccion());
+
+        cliente.setDireccion(request.getDireccion());
+        cliente.getUsuario().setNombre(request.getNombre());
+        cliente.getUsuario().setApellido(request.getApellido());
+        cliente.getUsuario().setCelular(request.getCelular());
+
         return clienteRepo.save(cliente);
     }
 
