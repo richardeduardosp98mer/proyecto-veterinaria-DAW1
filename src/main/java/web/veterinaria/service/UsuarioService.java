@@ -1,5 +1,6 @@
 package web.veterinaria.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import web.veterinaria.dto.ActualizarUsuarioRequest;
 import web.veterinaria.dto.UsuarioRegistroRequest;
@@ -18,11 +19,13 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepo;
     private final EstadoRepository estadoRepo;
     private final RolRepository rolRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepo, EstadoRepository estadoRepo, RolRepository rolRepo) {
+    public UsuarioService(UsuarioRepository usuarioRepo, EstadoRepository estadoRepo, RolRepository rolRepo, PasswordEncoder passwordEncoder) {
         this.usuarioRepo = usuarioRepo;
         this.estadoRepo = estadoRepo;
         this.rolRepo = rolRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Usuario registrar(UsuarioRegistroRequest request) {
@@ -40,7 +43,7 @@ public class UsuarioService {
         usuario.setNombre(request.getNombre());
         usuario.setApellido(request.getApellido());
         usuario.setCorreo(request.getCorreo());
-        usuario.setClave(request.getClave());
+        usuario.setClave(passwordEncoder.encode(request.getClave()));
         usuario.setCelular(request.getCelular());
         usuario.setRol(rol);
         usuario.setEstado(activo);
@@ -49,6 +52,10 @@ public class UsuarioService {
     }
 
     public Usuario registrar(Usuario usuario) {
+        // cifra la clave solo si todavía no lo está (evita cifrar dos veces si ya viene hasheada)
+        if (usuario.getClave() != null && !usuario.getClave().startsWith("$2")) {
+            usuario.setClave(passwordEncoder.encode(usuario.getClave()));
+        }
         return usuarioRepo.save(usuario);
     }
 
@@ -69,7 +76,7 @@ public class UsuarioService {
         if (u == null) {
             return "CREDENCIALES_INVALIDAS";
         }
-        if (!u.getClave().equals(clave)) {
+        if (!passwordEncoder.matches(clave, u.getClave())) {
             return "CREDENCIALES_INVALIDAS";
         }
         if (!u.getEstado().getTipoEstado().equals("Activo")) {
@@ -111,7 +118,7 @@ public class UsuarioService {
             return "USUARIO_NO_ENCONTRADO";
         }
 
-        if (!usuario.getClave().equals(claveActual)) {
+        if (!passwordEncoder.matches(claveActual, usuario.getClave())) {
             return "CLAVE_ACTUAL_INCORRECTA";
         }
 
@@ -119,8 +126,9 @@ public class UsuarioService {
             return "CLAVE_NUEVA_INVALIDA";
         }
 
-        usuario.setClave(claveNueva);
+        usuario.setClave(passwordEncoder.encode(claveNueva));
         usuarioRepo.save(usuario);
         return "OK";
     }
+
 }
