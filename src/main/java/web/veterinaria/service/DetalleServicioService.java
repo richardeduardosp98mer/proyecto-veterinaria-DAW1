@@ -13,6 +13,7 @@ import web.veterinaria.repository.ServicioRepository;
 
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
 public class DetalleServicioService {
@@ -43,6 +44,21 @@ public class DetalleServicioService {
         return toResponse(detalleServicioRepository.save(detalle));
     }
 
+    public DetalleServicioResponse actualizar(Long id, DetalleServicioRequest request) {
+        DetalleServicio detalle = detalleServicioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Detalle de servicio no encontrado con id: " + id));
+
+        Servicio servicio = servicioRepository.findById(request.getIdServicio())
+                .orElseThrow(() -> new RuntimeException("Servicio no encontrado con id: " + request.getIdServicio()));
+
+        detalle.setServicio(servicio);
+        detalle.setCantidad(request.getCantidad());
+        detalle.setPrecioUnitario(servicio.getPrecio());
+        detalle.setObservaciones(request.getObservaciones());
+
+        return toResponse(detalleServicioRepository.save(detalle));
+    }
+
     public void eliminar(Long id) {
         if (!detalleServicioRepository.existsById(id)) {
             throw new RuntimeException("Detalle de servicio no encontrado con id: " + id);
@@ -61,4 +77,5 @@ public class DetalleServicioService {
                 detalle.getObservaciones()
         );
     }
+
 }

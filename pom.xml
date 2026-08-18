@@ -40,6 +40,12 @@
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
+        <!-- Spring Security: necesario para BCryptPasswordEncoder (requisito del proyecto) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!-- Base de Datos H2 -->
         <!--<dependency>
             <groupId>com.h2database</groupId>
