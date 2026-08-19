@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap, tap, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoginRequest, LoginResponse, Rol } from '../../models/auth';
-import { Cliente } from '../../services/cliente';
+import { ClienteService } from '../../services/cliente';
 import { Veterinario } from '../../services/veterinario';
 
 const STORAGE_KEY = 'usuario';
@@ -15,7 +15,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private clienteService: Cliente,
+    private clienteService: ClienteService,
     private veterinarioService: Veterinario
   ) {}
 
