@@ -1,1 +1,30 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <div class="brand">Veterinaria</div>
+
+  <!-- Menú Admin -->
+  <ng-container *ngIf="authService.tieneRol('Admin')">
+    <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+    <a routerLink="/admin/usuarios" routerLinkActive="active">Usuarios</a>
+    <a routerLink="/admin/servicios" routerLinkActive="active">Servicios</a>
+    <a routerLink="/admin/metodos-pago" routerLinkActive="active">Métodos de pago</a>
+  </ng-container>
+
+  <!-- Menú Veterinario -->
+  <ng-container *ngIf="authService.tieneRol('Veterinario')">
+    <a routerLink="/veterinario" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+    <a routerLink="/veterinario/citas" routerLinkActive="active">Mis citas</a>
+    <a routerLink="/veterinario/historial-medico" routerLinkActive="active">Historial médico</a>
+  </ng-container>
+
+  <!-- Menú Cliente -->
+  <ng-container *ngIf="authService.tieneRol('Cliente')">
+    <a routerLink="/cliente" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+    <a routerLink="/cliente/mis-mascotas" routerLinkActive="active">Mis mascotas</a>
+    <a routerLink="/cliente/mis-citas" routerLinkActive="active">Mis citas</a>
+  </ng-container>
+
+  <div class="spacer"></div>
+
+  <span class="usuario" *ngIf="usuario as u">{{ u.nombre }} ({{ u.rol }})</span>
+  <button class="logout" (click)="logout()">Salir</button>
+</nav>

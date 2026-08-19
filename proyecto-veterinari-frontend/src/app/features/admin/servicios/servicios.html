@@ -1,1 +1,49 @@
-<p>servicios works!</p>
+<div class="page">
+  <h2>Servicios</h2>
+
+  <button class="btn btn-primary" (click)="mostrarForm ? (mostrarForm = false) : nuevo()">
+    {{ mostrarForm ? 'Cancelar' : '+ Nuevo servicio' }}
+  </button>
+
+  <div class="card" *ngIf="mostrarForm" style="margin-top: 12px;">
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Nombre</label>
+        <input [(ngModel)]="form.nombreServicio" name="nombreServicio" />
+      </div>
+      <div class="form-row">
+        <label>Precio (S/)</label>
+        <input [(ngModel)]="form.precio" name="precio" type="number" step="0.01" />
+      </div>
+      <div class="form-row">
+        <label>Duración (min)</label>
+        <input [(ngModel)]="form.duracionMinutos" name="duracionMinutos" type="number" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Descripción</label>
+      <textarea [(ngModel)]="form.descripcion" name="descripcion" rows="2"></textarea>
+    </div>
+    <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Nombre</th><th>Precio</th><th>Duración</th><th>Estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let s of servicios">
+        <td>{{ s.nombreServicio }}</td>
+        <td>S/ {{ s.precio }}</td>
+        <td>{{ s.duracionMinutos }} min</td>
+        <td>{{ s.estado }}</td>
+        <td class="actions">
+          <button class="btn" (click)="editar(s)">Editar</button>
+          <button class="btn btn-danger" (click)="eliminar(s.idServicio)">Eliminar</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,1 +1,29 @@
-<p>metodos-pagos works!</p>
+<div class="page">
+  <h2>Métodos de pago</h2>
+
+  <div class="card">
+    <div class="form-row" style="flex-direction: row; align-items: flex-end; gap: 8px;">
+      <div style="flex: 1;">
+        <label>Nuevo método</label>
+        <input [(ngModel)]="nuevoNombre" name="nuevoNombre" placeholder="Ej: Yape" />
+      </div>
+      <button class="btn btn-primary" (click)="agregar()">Agregar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Nombre</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let m of metodos">
+        <td>{{ m.nombreMetodoPago }}</td>
+        <td class="actions">
+          <button class="btn btn-danger" (click)="eliminar(m.idMetodoPago)">Eliminar</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

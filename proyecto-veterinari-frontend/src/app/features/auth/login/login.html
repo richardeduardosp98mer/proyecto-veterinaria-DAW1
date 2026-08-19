@@ -1,1 +1,17 @@
-<p>login works!</p>
+<div class="login-container">
+  <form class="login-card" (ngSubmit)="onSubmit()">
+    <h2>Veterinaria</h2>
+
+    <label for="correo">Correo</label>
+    <input id="correo" name="correo" type="email" [(ngModel)]="correo" required />
+
+    <label for="clave">Clave</label>
+    <input id="clave" name="clave" type="password" [(ngModel)]="clave" required />
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <button type="submit" [disabled]="cargando">
+      {{ cargando ? 'Ingresando...' : 'Ingresar' }}
+    </button>
+  </form>
+</div>

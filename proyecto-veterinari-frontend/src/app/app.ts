@@ -1,12 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Navbar } from './shared/navbar/navbar';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, Navbar ],
+  templateUrl: './app.html'
 })
 export class App {
-  protected readonly title = signal('proyecto-veterinari-frontend');
+  constructor(public authService: AuthService) {}
 }
