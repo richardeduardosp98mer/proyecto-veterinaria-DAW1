@@ -7,8 +7,7 @@ import { Servicio } from '../../../services/servicio';
   selector: 'app-dashboard-admin',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard-admin.html',
-  styleUrl: './dashboard-admin.css',
+  templateUrl: './dashboard-admin.html'
 })
 export class DashboardAdmin implements OnInit {
   totalUsuarios = 0;
