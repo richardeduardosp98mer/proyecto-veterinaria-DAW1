@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MisCitas } from './mis-citas';
+import { MisCitasComponent } from './mis-citas';
 
 describe('MisCitas', () => {
-  let component: MisCitas;
-  let fixture: ComponentFixture<MisCitas>;
+  let component: MisCitasComponent;
+  let fixture: ComponentFixture<MisCitasComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MisCitas],
+      imports: [MisCitasComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MisCitas);
+    fixture = TestBed.createComponent(MisCitasComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

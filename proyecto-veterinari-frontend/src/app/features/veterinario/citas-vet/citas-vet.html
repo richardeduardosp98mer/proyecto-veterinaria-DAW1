@@ -1,1 +1,31 @@
-<p>citas-vet works!</p>
+<div class="page">
+  <h2>Mis citas</h2>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Fecha</th><th>Mascota</th><th>Estado</th><th>Cambiar estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of citas">
+        <td>{{ c.fechaHora | date:'short' }}</td>
+        <td>{{ c.nombreMascota }}</td>
+        <td><span [class]="badgeClass(c.estadoCita)">{{ c.estadoCita }}</span></td>
+        <td>
+          <select (change)="cambiarEstado(c, +$any($event.target).value)">
+            <option [value]="e.id" *ngFor="let e of estados" [selected]="e.nombre === c.estadoCita">
+              {{ e.nombre }}
+            </option>
+          </select>
+        </td>
+        <td class="actions">
+          <button class="btn btn-danger" (click)="cancelar(c.idCita)">Cancelar</button>
+        </td>
+      </tr>
+      <tr *ngIf="citas.length === 0">
+        <td colspan="5">No hay citas registradas.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

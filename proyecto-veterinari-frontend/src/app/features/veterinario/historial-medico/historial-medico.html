@@ -1,1 +1,65 @@
-<p>historial-medico works!</p>
+<div class="page">
+  <h2>Historial médico</h2>
+
+  <div class="card">
+    <div class="form-row" style="flex-direction: row; align-items: flex-end; gap: 8px;">
+      <div style="flex: 1;">
+        <label>ID de la mascota</label>
+        <input [(ngModel)]="idMascotaBuscar" name="idMascotaBuscar" type="number" />
+      </div>
+      <button class="btn btn-primary" (click)="buscar()">Buscar</button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="buscado">
+    <button class="btn btn-primary" (click)="mostrarForm = !mostrarForm">
+      {{ mostrarForm ? 'Cancelar' : '+ Nueva consulta' }}
+    </button>
+
+    <div class="card" *ngIf="mostrarForm" style="margin-top: 12px;">
+      <div class="form-grid">
+        <div class="form-row">
+          <label>Peso (kg)</label>
+          <input [(ngModel)]="form.peso" name="peso" type="number" step="0.1" />
+        </div>
+        <div class="form-row">
+          <label>Temperatura (°C)</label>
+          <input [(ngModel)]="form.temperatura" name="temperatura" type="number" step="0.1" />
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Diagnóstico</label>
+        <textarea [(ngModel)]="form.diagnostico" name="diagnostico" rows="2"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Tratamiento</label>
+        <textarea [(ngModel)]="form.tratamiento" name="tratamiento" rows="2"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Observaciones</label>
+        <textarea [(ngModel)]="form.observaciones" name="observaciones" rows="2"></textarea>
+      </div>
+      <button class="btn btn-primary" (click)="guardar()">Guardar consulta</button>
+    </div>
+
+    <div class="card">
+      <table>
+        <thead>
+        <tr><th>Fecha</th><th>Diagnóstico</th><th>Tratamiento</th><th>Peso</th><th>Temp.</th></tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let h of historial">
+          <td>{{ h.fechaConsulta | date:'short' }}</td>
+          <td>{{ h.diagnostico }}</td>
+          <td>{{ h.tratamiento }}</td>
+          <td>{{ h.peso }} kg</td>
+          <td>{{ h.temperatura }} °C</td>
+        </tr>
+        <tr *ngIf="historial.length === 0">
+          <td colspan="5">Esta mascota no tiene historial registrado.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</div>

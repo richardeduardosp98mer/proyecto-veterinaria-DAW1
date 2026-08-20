@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardVet } from './dashboard-vet';
+import { DashboardVetComponent } from './dashboard-vet';
 
 describe('DashboardVet', () => {
-  let component: DashboardVet;
-  let fixture: ComponentFixture<DashboardVet>;
+  let component: DashboardVetComponent;
+  let fixture: ComponentFixture<DashboardVetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardVet],
+      imports: [DashboardVetComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DashboardVet);
+    fixture = TestBed.createComponent(DashboardVetComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

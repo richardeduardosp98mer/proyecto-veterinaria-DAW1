@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CitasVet } from './citas-vet';
+import { CitasVetComponent } from './citas-vet';
 
 describe('CitasVet', () => {
-  let component: CitasVet;
-  let fixture: ComponentFixture<CitasVet>;
+  let component: CitasVetComponent;
+  let fixture: ComponentFixture<CitasVetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CitasVet],
+      imports: [CitasVetComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CitasVet);
+    fixture = TestBed.createComponent(CitasVetComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

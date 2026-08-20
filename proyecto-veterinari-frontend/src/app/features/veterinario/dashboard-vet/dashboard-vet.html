@@ -1,1 +1,33 @@
-<p>dashboard-vet works!</p>
+<div class="page">
+  <h2>Panel del Veterinario</h2>
+
+  <div class="dashboard-cards">
+    <div class="card">
+      <div class="valor">{{ citasHoy.length }}</div>
+      <div class="label">Citas de hoy</div>
+    </div>
+    <div class="card">
+      <div class="valor">{{ totalPendientes }}</div>
+      <div class="label">Pendientes por confirmar</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Agenda de hoy</h3>
+    <table>
+      <thead>
+      <tr><th>Hora</th><th>Mascota</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of citasHoy">
+        <td>{{ c.fechaHora | date:'shortTime' }}</td>
+        <td>{{ c.nombreMascota }}</td>
+        <td>{{ c.estadoCita }}</td>
+      </tr>
+      <tr *ngIf="citasHoy.length === 0">
+        <td colspan="3">No tienes citas programadas para hoy.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
