@@ -12,7 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-historial-medico',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './historial-medico.component.html',
+  templateUrl: './historial-medico.html',
 })
 export class HistorialMedicoComponent {
   idMascotaBuscar: number | null = null;

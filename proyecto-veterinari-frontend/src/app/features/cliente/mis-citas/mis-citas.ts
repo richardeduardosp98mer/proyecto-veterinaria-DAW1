@@ -13,7 +13,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-mis-citas',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './mis-citas.component.html'
+  templateUrl: './mis-citas.html'
 })
 export class MisCitasComponent implements OnInit {
   citas: CitaResponse[] = [];

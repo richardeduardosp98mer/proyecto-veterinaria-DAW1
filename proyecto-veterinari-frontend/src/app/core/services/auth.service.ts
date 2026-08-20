@@ -4,7 +4,7 @@ import { Observable, switchMap, tap, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoginRequest, LoginResponse, Rol } from '../../models/auth';
 import { ClienteService } from '../../services/cliente';
-import { Veterinario } from '../../services/veterinario';
+import { VeterinarioService } from '../../services/veterinario';
 
 const STORAGE_KEY = 'usuario';
 const PERFIL_KEY = 'idPerfil';
@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private clienteService: ClienteService,
-    private veterinarioService: Veterinario
+    private veterinarioService: VeterinarioService
   ) {}
 
   login(credenciales: LoginRequest): Observable<LoginResponse> {

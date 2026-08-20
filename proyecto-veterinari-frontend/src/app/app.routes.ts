@@ -54,21 +54,21 @@ export const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('./features/veterinario/dashboard-vet/dashboard-vet').then(
-            (m) => m.DashboardVet,
+            (m) => m.DashboardVetComponent,
           ),
       },
       {
         path: 'citas',
         loadComponent: () =>
           import('./features/veterinario/citas-vet/citas-vet').then(
-            (m) => m.CitasVet,
+            (m) => m.CitasVetComponent,
           ),
       },
       {
         path: 'historial-medico',
         loadComponent: () =>
           import('./features/veterinario/historial-medico/historial-medico').then(
-            (m) => m.HistorialMedico,
+            (m) => m.HistorialMedicoComponent,
           ),
       },
     ],
@@ -84,21 +84,21 @@ export const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('./features/cliente/dashboard-cliente/dashboard-cliente').then(
-            (m) => m.DashboardCliente,
+            (m) => m.DashboardClienteComponent,
           ),
       },
       {
         path: 'mis-mascotas',
         loadComponent: () =>
           import('./features/cliente/mis-mascotas/mis-mascotas').then(
-            (m) => m.MisMascotas,
+            (m) => m.MisMascotasComponent,
           ),
       },
       {
         path: 'mis-citas',
         loadComponent: () =>
           import('./features/cliente/mis-citas/mis-citas').then(
-            (m) => m.MisCitas,
+            (m) => m.MisCitasComponent,
           ),
       },
     ],

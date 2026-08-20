@@ -8,7 +8,7 @@ import { CitaRequest, CitaResponse } from '../../../models/cita';
   selector: 'app-citas-vet',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './citas-vet.component.html',
+  templateUrl: './citas-vet.html',
 })
 export class CitasVetComponent implements OnInit {
   citas: CitaResponse[] = [];

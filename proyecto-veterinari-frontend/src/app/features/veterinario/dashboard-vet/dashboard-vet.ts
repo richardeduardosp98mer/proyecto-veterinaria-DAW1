@@ -7,7 +7,7 @@ import { CitaResponse } from '../../../models/cita';
   selector: 'app-dashboard-vet',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard-vet.component.html',
+  templateUrl: './dashboard-vet.html',
 })
 export class DashboardVetComponent implements OnInit {
   citasHoy: CitaResponse[] = [];

@@ -9,7 +9,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-mis-mascotas',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './mis-mascotas.component.html'
+  templateUrl: './mis-mascotas.html'
 })
 export class MisMascotasComponent implements OnInit {
   mascotas: MascotaResponse[] = [];

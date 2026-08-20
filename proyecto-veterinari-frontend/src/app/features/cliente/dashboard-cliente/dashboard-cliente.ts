@@ -9,7 +9,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-dashboard-cliente',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard-cliente.component.html'
+  templateUrl: './dashboard-cliente.html'
 })
 export class DashboardClienteComponent implements OnInit {
   totalMascotas = 0;
