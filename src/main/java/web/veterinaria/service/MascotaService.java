@@ -12,6 +12,8 @@ import web.veterinaria.repository.EspecieRepository;
 import web.veterinaria.repository.EstadoRepository;
 import web.veterinaria.repository.MascotaRepository;
 
+import java.util.List;
+
 @Service
 public class MascotaService {
     private final MascotaRepository mascotaRepository;
@@ -47,6 +49,13 @@ public class MascotaService {
                 .idCliente(mascota.getCliente() != null ? mascota.getCliente().getIdCliente() : null)
                 .nombreCliente(nombreCliente)
                 .build();
+    }
+
+    //para listar todas las mascotas
+    public List<MascotaResponse> listar(){
+        return mascotaRepository.findAll().stream()
+                .map(this::mapearAResponse)
+                .toList();
     }
 
     //para obtener mascota x id
@@ -104,6 +113,20 @@ public class MascotaService {
         return mapearAResponse(actualizada);
     }
 
+    //para eliminar mascota (borrado logico: pasa su estado a "Inactivo")
+    public boolean eliminar(Long id){
+        Mascota mascota = mascotaRepository.findById(id).orElse(null);
+        if (mascota == null){
+            return false;
+        }
+
+        Estado inactivo = estadoRepository.findByTipoEstado("Inactivo")
+                .orElseThrow(() -> new RuntimeException("Estado 'Inactivo' no configurado en Estado"));
+
+        mascota.setEstado(inactivo);
+        mascotaRepository.save(mascota);
+        return true;
+    }
 
 }
 

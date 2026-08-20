@@ -1,0 +1,60 @@
+<div class="page">
+  <h2>Usuarios</h2>
+
+  <button class="btn btn-primary" (click)="mostrarForm = !mostrarForm">
+    {{ mostrarForm ? 'Cancelar' : '+ Nuevo usuario' }}
+  </button>
+
+  <div class="card" *ngIf="mostrarForm" style="margin-top: 12px;">
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Nombre</label>
+        <input [(ngModel)]="nuevoUsuario.nombre" name="nombre" />
+      </div>
+      <div class="form-row">
+        <label>Apellido</label>
+        <input [(ngModel)]="nuevoUsuario.apellido" name="apellido" />
+      </div>
+      <div class="form-row">
+        <label>Correo</label>
+        <input [(ngModel)]="nuevoUsuario.correo" name="correo" type="email" />
+      </div>
+      <div class="form-row">
+        <label>Clave</label>
+        <input [(ngModel)]="nuevoUsuario.clave" name="clave" type="password" />
+      </div>
+      <div class="form-row">
+        <label>Celular</label>
+        <input [(ngModel)]="nuevoUsuario.celular" name="celular" />
+      </div>
+      <div class="form-row">
+        <label>Rol</label>
+        <select [(ngModel)]="nuevoUsuario.idRol" name="idRol">
+          <option [value]="1">Admin</option>
+          <option [value]="2">Veterinario</option>
+          <option [value]="3">Cliente</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let u of usuarios">
+        <td>{{ u.nombre }} {{ u.apellido }}</td>
+        <td>{{ u.correo }}</td>
+        <td>{{ u.rol }}</td>
+        <td>{{ u.estado }}</td>
+        <td class="actions">
+          <button class="btn btn-danger" (click)="eliminar(u.idUsuario)">Eliminar</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

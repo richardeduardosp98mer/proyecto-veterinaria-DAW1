@@ -1,0 +1,68 @@
+<div class="page">
+  <h2>Mis mascotas</h2>
+
+  <button class="btn btn-primary" (click)="mostrarForm = !mostrarForm">
+    {{ mostrarForm ? 'Cancelar' : '+ Nueva mascota' }}
+  </button>
+
+  <div class="card" *ngIf="mostrarForm" style="margin-top: 12px;">
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Nombre</label>
+        <input [(ngModel)]="form.nombreMascota" name="nombreMascota" />
+      </div>
+      <div class="form-row">
+        <label>Especie</label>
+        <select [(ngModel)]="form.idEspecie" name="idEspecie">
+          <option [value]="e.id" *ngFor="let e of especies">{{ e.nombre }}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Raza</label>
+        <input [(ngModel)]="form.raza" name="raza" />
+      </div>
+      <div class="form-row">
+        <label>Sexo</label>
+        <select [(ngModel)]="form.sexo" name="sexo">
+          <option value="M">Macho</option>
+          <option value="H">Hembra</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Fecha de nacimiento</label>
+        <input [(ngModel)]="form.fechaNacimiento" name="fechaNacimiento" type="date" />
+      </div>
+      <div class="form-row">
+        <label>Peso (kg)</label>
+        <input [(ngModel)]="form.peso" name="peso" type="number" step="0.1" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Observaciones</label>
+      <textarea [(ngModel)]="form.observaciones" name="observaciones" rows="2"></textarea>
+    </div>
+    <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Nombre</th><th>Especie</th><th>Raza</th><th>Sexo</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let m of mascotas">
+        <td>{{ m.nombreMascota }}</td>
+        <td>{{ m.especie }}</td>
+        <td>{{ m.raza }}</td>
+        <td>{{ m.sexo }}</td>
+        <td class="actions">
+          <button class="btn btn-danger" (click)="eliminar(m.idMascota)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="mascotas.length === 0">
+        <td colspan="5">Todavía no registras mascotas.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
