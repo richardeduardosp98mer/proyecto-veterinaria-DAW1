@@ -1,1 +1,34 @@
-<p>dashboard-cliente works!</p>
+<div class="page">
+  <h2>Mi panel</h2>
+
+  <div class="dashboard-cards">
+    <div class="card">
+      <div class="valor">{{ totalMascotas }}</div>
+      <div class="label">Mis mascotas</div>
+    </div>
+    <div class="card">
+      <div class="valor">{{ proximasCitas.length }}</div>
+      <div class="label">Próximas citas</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Próximas citas</h3>
+    <table>
+      <thead>
+      <tr><th>Fecha</th><th>Mascota</th><th>Veterinario</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of proximasCitas">
+        <td>{{ c.fechaHora | date:'short' }}</td>
+        <td>{{ c.nombreMascota }}</td>
+        <td>{{ c.nombreVeterinario }}</td>
+        <td>{{ c.estadoCita }}</td>
+      </tr>
+      <tr *ngIf="proximasCitas.length === 0">
+        <td colspan="4">No tienes citas próximas.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

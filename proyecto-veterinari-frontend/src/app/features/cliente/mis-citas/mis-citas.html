@@ -1,1 +1,59 @@
-<p>mis-citas works!</p>
+<div class="page">
+  <h2>Mis citas</h2>
+
+  <button class="btn btn-primary" (click)="mostrarForm = !mostrarForm">
+    {{ mostrarForm ? 'Cancelar' : '+ Agendar cita' }}
+  </button>
+
+  <div class="card" *ngIf="mostrarForm" style="margin-top: 12px;">
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Mascota</label>
+        <select [(ngModel)]="form.idMascota" name="idMascota">
+          <option [value]="0" disabled>Selecciona una mascota</option>
+          <option [value]="m.idMascota" *ngFor="let m of misMascotas">{{ m.nombreMascota }}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Veterinario</label>
+        <select [(ngModel)]="form.idVeterinario" name="idVeterinario">
+          <option [value]="0" disabled>Selecciona un veterinario</option>
+          <option [value]="v.idVeterinario" *ngFor="let v of veterinarios">
+            {{ v.nombre }} {{ v.apellido }} — {{ v.especialidad }}
+          </option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Fecha y hora</label>
+        <input [(ngModel)]="form.fechaHora" name="fechaHora" type="datetime-local" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Observaciones</label>
+      <textarea [(ngModel)]="form.observaciones" name="observaciones" rows="2"></textarea>
+    </div>
+    <button class="btn btn-primary" (click)="agendar()">Agendar</button>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Fecha</th><th>Mascota</th><th>Veterinario</th><th>Estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of citas">
+        <td>{{ c.fechaHora | date:'short' }}</td>
+        <td>{{ c.nombreMascota }}</td>
+        <td>{{ c.nombreVeterinario }}</td>
+        <td><span [class]="badgeClass(c.estadoCita)">{{ c.estadoCita }}</span></td>
+        <td class="actions">
+          <button class="btn btn-danger" *ngIf="c.estadoCita !== 'Cancelada'" (click)="cancelar(c.idCita)">Cancelar</button>
+        </td>
+      </tr>
+      <tr *ngIf="citas.length === 0">
+        <td colspan="5">Todavía no tienes citas.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
