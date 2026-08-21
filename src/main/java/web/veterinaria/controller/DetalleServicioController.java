@@ -26,6 +26,11 @@ public class DetalleServicioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(detalleServicioService.crear(request));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<DetalleServicioResponse> actualizar(@PathVariable Long id, @RequestBody DetalleServicioRequest request) {
+        return ResponseEntity.ok(detalleServicioService.actualizar(id, request));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         detalleServicioService.eliminar(id);

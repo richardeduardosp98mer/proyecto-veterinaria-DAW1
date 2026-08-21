@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, switchMap, tap, of } from 'rxjs';
+import { Observable, switchMap, tap, of, catchError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoginRequest, LoginResponse, Rol } from '../../models/auth';
 import { ClienteService } from '../../services/cliente';
@@ -16,32 +16,35 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private clienteService: ClienteService,
-    private veterinarioService: VeterinarioService
+    private veterinarioService: VeterinarioService,
   ) {}
 
   login(credenciales: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credenciales).pipe(
-      tap(res => localStorage.setItem(STORAGE_KEY, JSON.stringify(res))),
-      switchMap(res => this.resolverIdPerfil(res).pipe(switchMap(() => of(res))))
+      tap((res) => localStorage.setItem(STORAGE_KEY, JSON.stringify(res))),
+      switchMap((res) => this.resolverIdPerfil(res).pipe(switchMap(() => of(res)))),
     );
   }
 
   private resolverIdPerfil(res: LoginResponse): Observable<void> {
     if (res.rol === 'Cliente') {
-      return new Observable<void>(observer => {
-        this.clienteService.listar().subscribe(clientes => {
-          const propio = clientes.find(c => c.correo === res.correo);
+      return this.clienteService.listar().pipe(
+        tap((clientes) => {
+          const propio = clientes.find((c) => c.correo === res.correo);
           if (propio) localStorage.setItem(PERFIL_KEY, String(propio.idCliente));
-          observer.next();
-          observer.complete();
-        });
-      });
+        }),
+        switchMap(() => of(undefined)),
+        catchError((err) => {
+          console.error('No se pudo resolver idCliente tras el login:', err);
+          return of(undefined);
+        }),
+      );
     }
 
     if (res.rol === 'Veterinario') {
-      return new Observable<void>(observer => {
-        this.veterinarioService.listar().subscribe(veterinarios => {
-          const propio = veterinarios.find(v => v.correo === res.correo);
+      return new Observable<void>((observer) => {
+        this.veterinarioService.listar().subscribe((veterinarios) => {
+          const propio = veterinarios.find((v) => v.correo === res.correo);
           if (propio) localStorage.setItem(PERFIL_KEY, String(propio.idVeterinario));
           observer.next();
           observer.complete();
@@ -63,7 +66,7 @@ export class AuthService {
 
   obtenerUsuario(): LoginResponse | null {
     const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) as LoginResponse : null;
+    return data ? (JSON.parse(data) as LoginResponse) : null;
   }
 
   // idCliente si el rol es Cliente, idVeterinario si el rol es Veterinario, null si es Admin o no resuelto aún
@@ -84,11 +87,14 @@ export class AuthService {
   // ruta de inicio según el rol, usada tras el login y por el guard de rol
   rutaHomePorRol(): string {
     switch (this.obtenerRol()) {
-      case 'Admin': return '/admin';
-      case 'Veterinario': return '/veterinario';
-      case 'Cliente': return '/cliente';
-      default: return '/login';
+      case 'Admin':
+        return '/admin';
+      case 'Veterinario':
+        return '/veterinario';
+      case 'Cliente':
+        return '/cliente';
+      default:
+        return '/login';
     }
   }
-
 }
