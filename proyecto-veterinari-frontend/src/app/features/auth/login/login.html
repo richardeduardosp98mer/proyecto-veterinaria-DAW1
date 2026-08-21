@@ -1,17 +1,78 @@
-<div class="login-container">
-  <form class="login-card" (ngSubmit)="onSubmit()">
-    <h2>Veterinaria</h2>
+<div class="auth-layout">
+  <aside class="auth-brand">
+    <div class="brand-header">
+      <div class="brand-logo">🐾</div>
+      <span class="brand-name">Mis patitas</span>
+    </div>
 
-    <label for="correo">Correo</label>
-    <input id="correo" name="correo" type="email" [(ngModel)]="correo" required />
+    <div class="brand-body">
+      <span class="brand-eyebrow">— PANEL CLÍNICO</span>
+      <h1>
+        El sistema operativo<br />
+        <em>de tu veterinaria</em>
+      </h1>
+      <p>
+        Citas, historiales, clientes y pagos en un solo lugar — con accesos
+        independientes para administración, veterinarios y clientes.
+      </p>
+    </div>
 
-    <label for="clave">Clave</label>
-    <input id="clave" name="clave" type="password" [(ngModel)]="clave" required />
+    <div class="brand-stats">
+      <div>
+        <strong>{{ totalMascotas }}</strong>
+        <span>mascotas registradas</span>
+      </div>
+      <div>
+        <strong>{{ totalCitasMes }}</strong>
+        <span>citas este mes</span>
+      </div>
+      <div>
+        <strong>{{ totalVeterinarios }}</strong>
+        <span>veterinarios activos</span>
+      </div>
+    </div>
+  </aside>
 
-    <p class="error" *ngIf="error">{{ error }}</p>
+  <main class="auth-panel">
+    <form class="auth-card" (ngSubmit)="onSubmit()">
+      <h2>Bienvenido de vuelta</h2>
+      <p class="auth-subtitle">Ingresa a tu cuenta para continuar.</p>
 
-    <button type="submit" [disabled]="cargando">
-      {{ cargando ? 'Ingresando...' : 'Ingresar' }}
-    </button>
-  </form>
+      <label for="correo">Correo</label>
+      <input id="correo" name="correo" type="email" [(ngModel)]="correo" required />
+
+      <label for="clave">Clave</label>
+      <div class="password-field">
+        <input
+          id="clave"
+          name="clave"
+          [type]="mostrarClave ? 'text' : 'password'"
+          [(ngModel)]="clave"
+          required
+        />
+        <button type="button" class="toggle-clave" (click)="mostrarClave = !mostrarClave">
+          {{ mostrarClave ? '🙈' : '👁' }}
+        </button>
+      </div>
+
+      <div class="auth-row">
+        <label class="remember">
+          <input type="checkbox" [(ngModel)]="recordarme" name="recordarme" />
+          Recordarme
+        </label>
+        <a class="forgot" href="javascript:void(0)">¿Olvidaste tu clave?</a>
+      </div>
+
+      <p class="error" *ngIf="error">{{ error }}</p>
+
+      <button type="submit" class="btn-ingresar" [disabled]="cargando">
+        {{ cargando ? 'Ingresando...' : 'Ingresar →' }}
+      </button>
+
+      <div class="auth-footer">
+        <span class="endpoint-tag">POST /api/auth/login</span>
+        <p>¿Eres nuevo cliente? <a routerLink="/registro">Regístrate aquí</a></p>
+      </div>
+    </form>
+  </main>
 </div>

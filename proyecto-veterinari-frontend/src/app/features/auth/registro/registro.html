@@ -1,0 +1,58 @@
+<div class="auth-layout">
+  <aside class="auth-brand">
+    <div class="brand-header">
+      <div class="brand-logo">🐾</div>
+      <span class="brand-name">Mis Patitas</span>
+    </div>
+
+    <div class="brand-body">
+      <span class="brand-eyebrow">— NUEVO CLIENTE</span>
+      <h1>
+        Registra a tu mascota<br />
+        <em>en minutos</em>
+      </h1>
+      <p>
+        Crea tu cuenta para agendar citas, ver el historial médico de tus
+        mascotas y gestionar tus pagos.
+      </p>
+    </div>
+  </aside>
+
+  <main class="auth-panel">
+    <form class="auth-card" (ngSubmit)="onSubmit()">
+      <h2>Crea tu cuenta</h2>
+      <p class="auth-subtitle">Regístrate como cliente para empezar.</p>
+
+      <label>Nombre</label>
+      <input [(ngModel)]="form.nombre" name="nombre" required />
+
+      <label>Apellido</label>
+      <input [(ngModel)]="form.apellido" name="apellido" required />
+
+      <label>Correo</label>
+      <input [(ngModel)]="form.correo" name="correo" type="email" required />
+
+      <label>Clave</label>
+      <input [(ngModel)]="form.clave" name="clave" type="password" required />
+
+      <label>Celular</label>
+      <input [(ngModel)]="form.celular" name="celular" />
+
+      <label>DNI</label>
+      <input [(ngModel)]="form.dni" name="dni" required />
+
+      <label>Dirección</label>
+      <input [(ngModel)]="form.direccion" name="direccion" />
+
+      <p class="error" *ngIf="error">{{ error }}</p>
+
+      <button type="submit" class="btn-ingresar" [disabled]="cargando">
+        {{ cargando ? 'Creando cuenta...' : 'Crear cuenta →' }}
+      </button>
+
+      <div class="auth-footer">
+        <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+      </div>
+    </form>
+  </main>
+</div>

@@ -7,6 +7,10 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
   },
+  {
+    path: 'registro',
+    loadComponent: () => import('./features/auth/registro/registro').then((m) => m.Registro),
+  },
 
   // ---- ADMIN ----
   {
@@ -62,9 +66,7 @@ export const routes: Routes = [
       {
         path: 'citas/:id/atender',
         loadComponent: () =>
-          import('./features/veterinario/atender-cita/atender-cita').then(
-            (m) => m.AtenderCita,
-          ),
+          import('./features/veterinario/atender-cita/atender-cita').then((m) => m.AtenderCita),
       },
       {
         path: 'historial-medico',
