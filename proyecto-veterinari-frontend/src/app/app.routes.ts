@@ -5,8 +5,7 @@ import { roleGuard } from './core/guards/role-guard';
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () =>
-      import('./features/auth/login/login').then((m) => m.Login),
+    loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
   },
 
   // ---- ADMIN ----
@@ -18,28 +17,26 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./features/admin/dashboard-admin/dashboard-admin').then(
-            (m) => m.DashboardAdmin,
-          ),
+          import('./features/admin/dashboard-admin/dashboard-admin').then((m) => m.DashboardAdmin),
       },
       {
         path: 'usuarios',
-        loadComponent: () =>
-          import('./features/admin/usuarios/usuarios').then((m) => m.Usuarios),
+        loadComponent: () => import('./features/admin/usuarios/usuarios').then((m) => m.Usuarios),
       },
       {
         path: 'servicios',
         loadComponent: () =>
-          import('./features/admin/servicios/servicios').then(
-            (m) => m.Servicios,
-          ),
+          import('./features/admin/servicios/servicios').then((m) => m.Servicios),
       },
       {
         path: 'metodos-pago',
         loadComponent: () =>
-          import('./features/admin/metodos-pagos/metodos-pagos').then(
-            (m) => m.MetodosPagos,
-          ),
+          import('./features/admin/metodos-pagos/metodos-pagos').then((m) => m.MetodosPagos),
+      },
+      {
+        path: 'veterinarios',
+        loadComponent: () =>
+          import('./features/admin/veterinarios/veterinarios').then((m) => m.Veterinarios),
       },
     ],
   },
@@ -60,8 +57,13 @@ export const routes: Routes = [
       {
         path: 'citas',
         loadComponent: () =>
-          import('./features/veterinario/citas-vet/citas-vet').then(
-            (m) => m.CitasVetComponent,
+          import('./features/veterinario/citas-vet/citas-vet').then((m) => m.CitasVetComponent),
+      },
+      {
+        path: 'citas/:id/atender',
+        loadComponent: () =>
+          import('./features/veterinario/atender-cita/atender-cita').then(
+            (m) => m.AtenderCita,
           ),
       },
       {
@@ -97,9 +99,7 @@ export const routes: Routes = [
       {
         path: 'mis-citas',
         loadComponent: () =>
-          import('./features/cliente/mis-citas/mis-citas').then(
-            (m) => m.MisCitasComponent,
-          ),
+          import('./features/cliente/mis-citas/mis-citas').then((m) => m.MisCitasComponent),
       },
     ],
   },

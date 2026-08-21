@@ -19,6 +19,7 @@
           </select>
         </td>
         <td class="actions">
+          <a class="btn btn-primary" [routerLink]="['/veterinario/citas', c.idCita, 'atender']">Atender</a>
           <button class="btn btn-danger" (click)="cancelar(c.idCita)">Cancelar</button>
         </td>
       </tr>

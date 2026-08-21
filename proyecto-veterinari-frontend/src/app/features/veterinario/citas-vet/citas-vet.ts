@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Cita} from '../../../services/cita';
 import { CitaRequest, CitaResponse } from '../../../models/cita';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-citas-vet',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './citas-vet.html',
 })
 export class CitasVetComponent implements OnInit {

@@ -26,6 +26,10 @@ public class UsuarioController {
 
     @PostMapping("/registro")
     public ResponseEntity<?> registrar(@RequestBody UsuarioRegistroRequest request) {
+        if (usuarioService.buscarPorCorreo(request.getCorreo()) != null) {
+            return ResponseEntity.badRequest().body("El correo ya está registrado");
+        }
+
         Usuario guardado = usuarioService.registrar(request);
         if (guardado == null) {
             return ResponseEntity.badRequest().body("El rol indicado no existe");

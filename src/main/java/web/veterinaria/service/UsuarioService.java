@@ -12,6 +12,7 @@ import web.veterinaria.repository.RolRepository;
 import web.veterinaria.repository.UsuarioRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -20,6 +21,8 @@ public class UsuarioService {
     private final EstadoRepository estadoRepo;
     private final RolRepository rolRepo;
     private final PasswordEncoder passwordEncoder;
+
+
 
     public UsuarioService(UsuarioRepository usuarioRepo, EstadoRepository estadoRepo, RolRepository rolRepo, PasswordEncoder passwordEncoder) {
         this.usuarioRepo = usuarioRepo;
