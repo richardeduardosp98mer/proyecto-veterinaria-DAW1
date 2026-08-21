@@ -1,0 +1,60 @@
+<div class="page">
+  <h2>Veterinarios</h2>
+
+  <button class="btn btn-primary" (click)="mostrarForm = !mostrarForm">
+    {{ mostrarForm ? 'Cancelar' : '+ Nuevo veterinario' }}
+  </button>
+
+  <div class="card" *ngIf="mostrarForm" style="margin-top: 12px;">
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Nombre</label>
+        <input [(ngModel)]="nuevoVeterinario.nombre" name="nombre" />
+      </div>
+      <div class="form-row">
+        <label>Apellido</label>
+        <input [(ngModel)]="nuevoVeterinario.apellido" name="apellido" />
+      </div>
+      <div class="form-row">
+        <label>Correo</label>
+        <input [(ngModel)]="nuevoVeterinario.correo" name="correo" type="email" />
+      </div>
+      <div class="form-row">
+        <label>Clave</label>
+        <input [(ngModel)]="nuevoVeterinario.clave" name="clave" type="password" />
+      </div>
+      <div class="form-row">
+        <label>Celular</label>
+        <input [(ngModel)]="nuevoVeterinario.celular" name="celular" />
+      </div>
+      <div class="form-row">
+        <label>Especialidad</label>
+        <input [(ngModel)]="nuevoVeterinario.especialidad" name="especialidad" />
+      </div>
+      <div class="form-row">
+        <label>N° Colegiatura</label>
+        <input [(ngModel)]="nuevoVeterinario.numeroColegiatura" name="numeroColegiatura" />
+      </div>
+    </div>
+    <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Nombre</th><th>Correo</th><th>Especialidad</th><th>Colegiatura</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let v of veterinarios">
+        <td>{{ v.nombre }} {{ v.apellido }}</td>
+        <td>{{ v.correo }}</td>
+        <td>{{ v.especialidad }}</td>
+        <td>{{ v.numeroColegiatura }}</td>
+        <td class="actions">
+          <button class="btn btn-danger" (click)="eliminar(v.idVeterinario)">Eliminar</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
