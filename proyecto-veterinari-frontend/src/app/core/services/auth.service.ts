@@ -42,14 +42,17 @@ export class AuthService {
     }
 
     if (res.rol === 'Veterinario') {
-      return new Observable<void>((observer) => {
-        this.veterinarioService.listar().subscribe((veterinarios) => {
+      return this.veterinarioService.listar().pipe(
+        tap((veterinarios) => {
           const propio = veterinarios.find((v) => v.correo === res.correo);
           if (propio) localStorage.setItem(PERFIL_KEY, String(propio.idVeterinario));
-          observer.next();
-          observer.complete();
-        });
-      });
+        }),
+        switchMap(() => of(undefined)),
+        catchError((err) => {
+          console.error('No se pudo resolver idVeterinario tras el login:', err);
+          return of(undefined);
+        }),
+      );
     }
 
     return of(undefined);
