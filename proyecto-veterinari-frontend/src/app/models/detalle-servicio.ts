@@ -16,3 +16,5 @@ export interface DetalleServicioResponse {
   subtotal: number;
   observaciones: string;
 }
+
+

@@ -1,4 +1,7 @@
-import { Service } from '@angular/core';
+import { HttpInterceptorFn } from '@angular/common/http';
 
-@Service()
-export class AuthInterceptor {}
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  //  placeholder para cuando agregues autenticación con token
+  return next(req);
+};
+
