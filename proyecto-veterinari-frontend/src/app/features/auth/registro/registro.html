@@ -2,7 +2,7 @@
   <aside class="auth-brand">
     <div class="brand-header">
       <div class="brand-logo">🐾</div>
-      <span class="brand-name">Mis Patitas</span>
+      <span class="brand-name">SomosTuPata</span>
     </div>
 
     <div class="brand-body">
@@ -20,30 +20,45 @@
 
   <main class="auth-panel">
     <form class="auth-card" (ngSubmit)="onSubmit()">
-      <h2>Crea tu cuenta</h2>
-      <p class="auth-subtitle">Regístrate como cliente para empezar.</p>
+      <div style="text-align: center">
+        <h2>Crea tu cuenta</h2>
+        <p class="auth-subtitle">Regístrate como cliente para empezar.</p>
+      </div>
+      <div class="form-row-split">
+        <div class="field">
+          <label>Nombre</label>
+          <input [(ngModel)]="form.nombre" name="nombre" required />
+        </div>
+        <div class="field">
+          <label>Apellido</label>
+          <input [(ngModel)]="form.apellido" name="apellido" required />
+        </div>
+      </div>
 
-      <label>Nombre</label>
-      <input [(ngModel)]="form.nombre" name="nombre" required />
-
-      <label>Apellido</label>
-      <input [(ngModel)]="form.apellido" name="apellido" required />
-
-      <label>Correo</label>
-      <input [(ngModel)]="form.correo" name="correo" type="email" required />
-
-      <label>Clave</label>
-      <input [(ngModel)]="form.clave" name="clave" type="password" required />
-
-      <label>Celular</label>
-      <input [(ngModel)]="form.celular" name="celular" />
-
-      <label>DNI</label>
-      <input [(ngModel)]="form.dni" name="dni" required />
+      <div class="form-row-split">
+        <div class="field">
+          <label>Celular</label>
+          <input [(ngModel)]="form.celular" name="celular" />
+        </div>
+        <div class="field">
+          <label>DNI</label>
+          <input [(ngModel)]="form.dni" name="dni" required />
+        </div>
+      </div>
 
       <label>Dirección</label>
       <input [(ngModel)]="form.direccion" name="direccion" />
 
+      <div class="form-row-split">
+        <div class="field">
+          <label>Correo</label>
+          <input [(ngModel)]="form.correo" name="correo" type="email" required />
+        </div>
+        <div class="field">
+          <label>Clave</label>
+          <input [(ngModel)]="form.clave" name="clave" type="password" required />
+        </div>
+      </div>
       <p class="error" *ngIf="error">{{ error }}</p>
 
       <button type="submit" class="btn-ingresar" [disabled]="cargando">
