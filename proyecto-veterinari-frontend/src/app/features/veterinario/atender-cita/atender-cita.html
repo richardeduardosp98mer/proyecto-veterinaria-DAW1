@@ -1,5 +1,11 @@
-<div class="page">
-  <h2>Atender cita #{{ idCita }}</h2>
+<div class="page" style="margin-left: 210px">
+  <div class="page-header">
+    <div>
+      <span class="page-eyebrow">— ATENCIÓN EN CURSO</span>
+      <h2>Atender cita #{{ idCita }}</h2>
+      <p class="page-subtitle">Registra los servicios realizados y el pago de esta cita.</p>
+    </div>
+  </div>
 
   <div class="card">
     <h3>Servicios realizados</h3>
@@ -7,15 +13,15 @@
       <div style="flex: 1;">
         <label>Servicio</label>
         <select [(ngModel)]="idServicioSeleccionado" name="idServicio">
-          <option [value]="0" disabled>Selecciona un servicio</option>
-          <option [value]="s.idServicio" *ngFor="let s of servicios">{{ s.nombreServicio }} — S/ {{ s.precio }}</option>
+          <option [ngValue]="0" disabled>Selecciona un servicio</option>
+          <option [ngValue]="s.idServicio" *ngFor="let s of servicios">{{ s.nombreServicio }} — S/ {{ s.precio }}</option>
         </select>
       </div>
       <div style="width: 80px;">
         <label>Cant.</label>
         <input [(ngModel)]="cantidad" name="cantidad" type="number" min="1" />
       </div>
-      <button class="btn btn-primary" (click)="agregarServicio()">Agregar</button>
+      <button class="btn-nuevo" (click)="agregarServicio()">Agregar</button>
     </div>
 
     <table style="margin-top: 12px;">
@@ -28,7 +34,9 @@
         <td>{{ d.cantidad }}</td>
         <td>S/ {{ d.precioUnitario }}</td>
         <td>S/ {{ d.subtotal }}</td>
-        <td><button class="btn btn-danger" (click)="eliminarDetalle(d.idDetalleServicio)">Quitar</button></td>
+        <td class="actions">
+          <button class="icon-btn danger" (click)="eliminarDetalle(d.idDetalleServicio)" title="Quitar">🗑</button>
+        </td>
       </tr>
       <tr *ngIf="detalles.length === 0">
         <td colspan="5">Todavía no agregas servicios.</td>
@@ -43,8 +51,8 @@
       <div class="form-row">
         <label>Método de pago</label>
         <select [(ngModel)]="idMetodoPagoSeleccionado" name="idMetodoPago">
-          <option [value]="0" disabled>Selecciona un método</option>
-          <option [value]="m.idMetodoPago" *ngFor="let m of metodosPago">{{ m.nombreMetodoPago }}</option>
+          <option [ngValue]="0" disabled>Selecciona un método</option>
+          <option [ngValue]="m.idMetodoPago" *ngFor="let m of metodosPago">{{ m.nombreMetodoPago }}</option>
         </select>
       </div>
       <div class="form-row">
@@ -56,8 +64,8 @@
       <label>Referencia (opcional)</label>
       <input [(ngModel)]="referencia" name="referencia" />
     </div>
-    <button class="btn btn-primary" (click)="registrarPago()">Registrar pago</button>
+    <button class="btn-nuevo" (click)="registrarPago()">Registrar pago</button>
   </div>
 
-  <button class="btn btn-primary" (click)="finalizarAtencion()">Finalizar atención</button>
+  <button class="btn-nuevo" (click)="finalizarAtencion()">Finalizar atención</button>
 </div>

@@ -31,20 +31,19 @@
   <div class="card">
     <table>
       <thead>
-      <tr><th>Mascota</th><th>Especie / Raza</th><th>Dueño</th><th>Estado</th><th>Acciones</th></tr>
+      <tr><th>Mascota</th><th>Especie / Raza</th><th>Edad</th><th>Dueño</th><th>Estado</th><th>Acciones</th></tr>
       </thead>
       <tbody>
       <tr *ngFor="let m of mascotasPagina">
-        <td class="fila-nombre">{{ m.nombreMascota }}</td>
-        <td>
-          <div class="fila-avatar">
-            <div class="avatar-circulo">{{ inicial(m.especie) }}</div>
-            <div class="fila-info">
-              <span class="fila-nombre">{{ m.especie }}</span>
-              <span class="fila-detalle">{{ m.raza }} · {{ edad(m.fechaNacimiento) }} · {{ m.peso }}kg</span>
-            </div>
+        <td class="fila-avatar">
+          <div class="avatar-circulo">{{ inicial(m.especie) }}</div>
+          <div class="fila-info">
+            <span class="fila-nombre">{{ m.nombreMascota }}</span>
+            <span class="fila-detalle">{{ m.peso }} kg</span>
           </div>
         </td>
+        <td>{{ m.especie }} · {{ m.raza }}</td>
+        <td>{{ edad(m.fechaNacimiento) }}</td>
         <td><span class="texto-enlace">{{ m.nombreCliente }}</span></td>
         <td><span [class]="badgeClass(m.estado)">{{ m.estado }}</span></td>
         <td class="actions">
@@ -52,7 +51,7 @@
         </td>
       </tr>
       <tr *ngIf="mascotasPagina.length === 0">
-        <td colspan="5">No se encontraron mascotas.</td>
+        <td colspan="6">No se encontraron mascotas.</td>
       </tr>
       </tbody>
     </table>

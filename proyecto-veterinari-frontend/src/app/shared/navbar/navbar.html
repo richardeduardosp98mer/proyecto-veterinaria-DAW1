@@ -17,10 +17,10 @@
 
 
     <a [routerLink]="authService.rutaHomePorRol()"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }"
     >
-    <span class="nav-icon">▦</span> Dashboard
+      <span class="nav-icon">▦</span> Dashboard
     </a>
 
     <span class="nav-section">Gestión</span>
@@ -47,6 +47,7 @@
       <a routerLink="/cliente/mis-citas" routerLinkActive="active"><span class="nav-icon">🗓</span> Mis citas</a>
       <a routerLink="/cliente/mis-mascotas" routerLinkActive="active"><span class="nav-icon">🐾</span> Mis mascotas</a>
     </ng-container>
+  </nav>
 
   <div class="sidebar-footer" *ngIf="usuario as u">
     <div class="avatar">{{ inicial(u.nombre) }}</div>
@@ -57,3 +58,6 @@
     <button class="logout-icon" (click)="logout()" title="Salir">⏻</button>
   </div>
 </aside>
+
+
+

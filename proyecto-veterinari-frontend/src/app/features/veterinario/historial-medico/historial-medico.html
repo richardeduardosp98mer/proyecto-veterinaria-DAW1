@@ -3,10 +3,10 @@
     <div>
       <span class="page-eyebrow">— FICHAS CLÍNICAS</span>
       <h2>Historial médico</h2>
-      <p class="page-subtitle">Gestiona el módulo de historial médico de la clínica.</p>
+      <p class="page-subtitle">Consulta y registra el historial de tus pacientes.</p>
     </div>
     <button class="btn-nuevo" (click)="mostrarForm = !mostrarForm">
-      {{ mostrarForm ? '× Cancelar' : '+ Nuevo registro' }}
+      {{ mostrarForm ? 'Cancelar' : '+ Nueva consulta' }}
     </button>
   </div>
 
@@ -16,15 +16,23 @@
     { label: 'Historial médico', path: '/veterinario/historial-medico' }
   ]"></app-gestion-tabs>
 
-  <div class="card" *ngIf="mostrarForm" style="margin-bottom: 1rem;">
+  <div class="filtros-bar">
+    <div class="buscador">
+      🔍 <input [(ngModel)]="texto" (ngModelChange)="aplicarFiltros()" placeholder="Buscar por mascota o diagnóstico..." name="texto" />
+    </div>
+    <select [(ngModel)]="mascotaFiltro" (ngModelChange)="aplicarFiltros()" name="mascotaFiltro">
+      <option [ngValue]="0">Todas las mascotas</option>
+      <option [ngValue]="m.idMascota" *ngFor="let m of mascotas">{{ m.nombreMascota }}</option>
+    </select>
+  </div>
+
+  <div class="card" *ngIf="mostrarForm">
     <div class="form-grid">
       <div class="form-row">
         <label>Mascota</label>
         <select [(ngModel)]="form.idMascota" name="idMascota">
-          <option [value]="0" disabled>Selecciona una mascota</option>
-          <option [value]="m.idMascota" *ngFor="let m of mascotas">
-            {{ m.nombreMascota }} — {{ m.nombreCliente }}
-          </option>
+          <option [ngValue]="0" disabled>Selecciona una mascota</option>
+          <option [ngValue]="m.idMascota" *ngFor="let m of mascotas">{{ m.nombreMascota }}</option>
         </select>
       </div>
       <div class="form-row">
@@ -48,53 +56,41 @@
       <label>Observaciones</label>
       <textarea [(ngModel)]="form.observaciones" name="observaciones" rows="2"></textarea>
     </div>
-    <button class="btn btn-primary" (click)="guardar()">Guardar consulta</button>
-  </div>
-
-  <div class="filtros-bar">
-    <div class="buscador">
-      🔍 <input placeholder="Buscar..." [(ngModel)]="texto" (ngModelChange)="aplicarFiltros()" />
-    </div>
-    <select [(ngModel)]="mascotaFiltro" (ngModelChange)="aplicarFiltros()">
-      <option [value]="0">Todas las mascotas</option>
-      <option [value]="m.idMascota" *ngFor="let m of mascotas">{{ m.nombreMascota }}</option>
-    </select>
+    <button class="btn-nuevo" (click)="guardar()">Guardar consulta</button>
   </div>
 
   <div class="card">
     <table>
       <thead>
-      <tr><th>Fecha</th><th>Mascota</th><th>Diagnóstico</th><th>Tratamiento</th><th>Acciones</th></tr>
+      <tr><th>Fecha</th><th>Mascota</th><th>Diagnóstico</th><th>Tratamiento</th><th>Peso</th><th>Temp.</th><th>Acciones</th></tr>
       </thead>
       <tbody>
+      <tr *ngIf="cargando"><td colspan="7">Cargando...</td></tr>
       <tr *ngFor="let h of historialPagina">
-        <td>{{ h.fechaConsulta | date:'d MMM, HH:mm' }}</td>
-        <td>
-          <div class="fila-avatar">
-            <div class="avatar-circulo">{{ inicial(h.nombreMascota) }}</div>
-            <span class="fila-nombre">{{ h.nombreMascota }}</span>
-          </div>
+        <td>{{ h.fechaConsulta | date:'short' }}</td>
+        <td class="fila-avatar">
+          <div class="avatar-circulo">{{ inicial(h.nombreMascota) }}</div>
+          <span class="fila-nombre">{{ h.nombreMascota }}</span>
         </td>
         <td>{{ h.diagnostico }}</td>
         <td>{{ h.tratamiento }}</td>
+        <td>{{ h.peso }} kg</td>
+        <td>{{ h.temperatura }} °C</td>
         <td class="actions">
           <button class="icon-btn danger" (click)="eliminar(h.idHistorial)" title="Eliminar">🗑</button>
         </td>
       </tr>
       <tr *ngIf="!cargando && historialPagina.length === 0">
-        <td colspan="5">No hay registros en el historial médico.</td>
-      </tr>
-      <tr *ngIf="cargando">
-        <td colspan="5">Cargando historial médico…</td>
+        <td colspan="7">No hay registros de historial.</td>
       </tr>
       </tbody>
     </table>
 
-    <div class="paginacion" *ngIf="historialFiltrado.length > 0">
+    <div class="paginacion">
       <span>{{ rangoTexto }}</span>
       <div class="paginas">
         <div class="pagina-item" (click)="irAPagina(paginaActual - 1)">‹</div>
-        <div class="pagina-item" *ngFor="let p of paginas" [class.activa]="p === paginaActual" (click)="irAPagina(p)">{{ p }}</div>
+        <div class="pagina-item" [class.activa]="p === paginaActual" *ngFor="let p of paginas" (click)="irAPagina(p)">{{ p }}</div>
         <div class="pagina-item" (click)="irAPagina(paginaActual + 1)">›</div>
       </div>
     </div>

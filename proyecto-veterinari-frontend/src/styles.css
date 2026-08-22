@@ -109,34 +109,14 @@ th {
   background: #eee;
 }
 
-.badge-pendiente { background: #faeeda; color: #633806; }
-.badge-confirmada { background: #e6f1fb; color: #0c447c; }
-.badge-atendida { background: #eaf3de; color: #27500a; }
-.badge-cancelada { background: #fcebeb; color: #791f1f; }
+.badge-pendiente { background: #faeeda; color: #a1660e; }
+.badge-confirmada { background: #e6f1fb; color: #1d5da8; }
+.badge-atendida { background: #eaf3de; color: #3f7a1f; }
+.badge-cancelada { background: #fcebeb; color: #b53434; }
+.badge-activo { background: #eaf3de; color: #3f7a1f; }
+.badge-inactivo { background: #fcebeb; color: #b53434; }
 
 .error { color: #a11; font-size: 13px; }
-
-.dashboard-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 1.5rem;
-}
-
-.dashboard-cards .card {
-  margin-bottom: 0;
-  text-align: center;
-}
-
-.dashboard-cards .card .valor {
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.dashboard-cards .card .label {
-  font-size: 12px;
-  color: #777;
-}
 
 /* ---- Encabezado de página tipo SomosTuPata ---- */
 .page-header {
@@ -164,6 +144,14 @@ th {
   margin: 0;
   color: #777;
   font-size: 13px;
+}
+
+/* Subtítulo de página, cuando se usa fuera de .page-header */
+.page-subtitle {
+  color: #777;
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 1.5rem;
 }
 
 /* ---- Botón de acción principal (naranja) ---- */
@@ -254,6 +242,41 @@ th {
   color: #999;
 }
 
+/* ---- Texto tipo enlace para nombres de dueño/relación ---- */
+.texto-enlace {
+  color: #1d5da8;
+  font-weight: 500;
+}
+
+/* ---- Botones de acción tipo ícono (editar / eliminar) ---- */
+.icon-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  color: #444;
+  padding: 0;
+}
+
+.icon-btn:hover {
+  background: #f4f4f2;
+}
+
+.icon-btn.danger {
+  color: #b53434;
+  border-color: #eac5c5;
+}
+
+.icon-btn.danger:hover {
+  background: #fcebeb;
+}
+
 /* ---- Paginación ---- */
 .paginacion {
   display: flex;
@@ -288,28 +311,16 @@ th {
   border-color: #1f4d3d;
 }
 
-/* ---- Badges por estado (ajustado a colores de referencia) ---- */
-.badge-pendiente { background: #faeeda; color: #a1660e; }
-.badge-confirmada { background: #e6f1fb; color: #1d5da8; }
-.badge-atendida { background: #eaf3de; color: #3f7a1f; }
-.badge-cancelada { background: #fcebeb; color: #b53434; }
-.badge-activo { background: #eaf3de; color: #3f7a1f; }
-.badge-inactivo { background: #fcebeb; color: #b53434; }
-
-/* ---- Subtítulo de página (uso independiente del page-header) ---- */
-.page-subtitle {
-  color: #777;
-  font-size: 13px;
-  margin-top: -8px;
+/* ---- Tarjetas de dashboard con ícono y tendencia ---- */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
   margin-bottom: 1.5rem;
 }
 
-/* ---- Tarjetas de dashboard con ícono y tendencia ---- */
-.dashboard-cards {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
 .dashboard-cards .card {
+  margin-bottom: 0;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -368,151 +379,4 @@ th {
 
 @media (max-width: 900px) {
   .charts-row { grid-template-columns: 1fr; }
-}
-
-/* ---- Texto tipo enlace para nombres de dueño/relación ---- */
-.texto-enlace {
-  color: #1d5da8;
-  font-weight: 500;
-}
-
-/* ---- Botones de acción tipo ícono (editar / eliminar) ---- */
-.icon-btn {
-  width: 30px;
-  height: 30px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 13px;
-  color: #444;
-  padding: 0;
-}
-
-.icon-btn:hover {
-  background: #f4f4f2;
-}
-
-.icon-btn.danger {
-  color: #b53434;
-  border-color: #eac5c5;
-}
-
-.icon-btn.danger:hover {
-  background: #fcebeb;
-}
-
-.badge-activo { background: #eaf3de; color: #3f7a1f; }
-.badge-inactivo { background: #fcebeb; color: #b53434; }
-
-/* ---- Subtítulo de página (uso independiente del page-header) ---- */
-.page-subtitle {
-  color: #777;
-  font-size: 13px;
-  margin-top: -8px;
-  margin-bottom: 1.5rem;
-}
-
-/* ---- Tarjetas de dashboard con ícono y tendencia ---- */
-.dashboard-cards {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.dashboard-cards .card {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.card-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-}
-
-.icon-teal { background: #e7f3ee; color: #1f4d3d; }
-.icon-orange { background: #fdecdd; color: #c96a1f; }
-.icon-blue { background: #e6f1fb; color: #1d5da8; }
-.icon-green { background: #eaf3de; color: #3f7a1f; }
-.icon-red { background: #fcebeb; color: #b53434; }
-
-.dashboard-cards .card .label {
-  font-size: 12px;
-  color: #777;
-}
-
-.dashboard-cards .card .valor {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.card-trend {
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.trend-up { color: #3f7a1f; }
-.trend-down { color: #b53434; }
-.trend-neutral { color: #999; }
-
-/* ---- Gráficos del dashboard ---- */
-.charts-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1.5rem;
-}
-
-.chart-card h3 {
-  margin-top: 0;
-}
-
-.chart-card canvas {
-  max-height: 260px;
-}
-
-@media (max-width: 900px) {
-  .charts-row { grid-template-columns: 1fr; }
-}
-
-/* ---- Texto tipo enlace para nombres de dueño/relación ---- */
-.texto-enlace {
-  color: #1d5da8;
-  font-weight: 500;
-}
-
-/* ---- Botones de acción tipo ícono (editar / eliminar) ---- */
-.icon-btn {
-  width: 30px;
-  height: 30px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 13px;
-  color: #444;
-  padding: 0;
-}
-
-.icon-btn:hover {
-  background: #f4f4f2;
-}
-
-.icon-btn.danger {
-  color: #b53434;
-  border-color: #eac5c5;
-}
-
-.icon-btn.danger:hover {
-  background: #fcebeb;
 }
