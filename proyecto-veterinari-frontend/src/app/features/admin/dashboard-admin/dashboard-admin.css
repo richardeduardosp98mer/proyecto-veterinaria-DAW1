@@ -5,18 +5,16 @@
   margin-bottom: 1.5rem;
 }
 
-.estado-resumen {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
+.charts-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
 }
 
-.estado-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.chart-card h3 {
+  margin-top: 0;
 }
 
-.estado-item strong {
-  font-size: 16px;
+.chart-card canvas {
+  max-height: 260px;
 }

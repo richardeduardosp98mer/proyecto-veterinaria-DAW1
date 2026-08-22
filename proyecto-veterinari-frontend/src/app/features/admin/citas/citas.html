@@ -1,5 +1,12 @@
-<div class="page">
-  <h2>Citas</h2>
+<div class="page" style="margin-left: 210px">
+  <div class="page-header">
+    <div>
+      <span class="page-eyebrow">— AGENDA CLÍNICA</span>
+      <h2>Citas</h2>
+      <p class="page-subtitle">Gestiona el módulo de citas de la clínica.</p>
+    </div>
+    <button class="btn-nuevo">+ Nueva cita</button>
+  </div>
 
   <app-gestion-tabs [tabs]="[
     { label: 'Citas', path: '/admin/citas' },
@@ -9,6 +16,14 @@
     { label: 'Pagos', path: '/admin/pagos' },
     { label: 'Historial médico', path: '/admin/historial-medico' }
   ]"></app-gestion-tabs>
+
+  <div class="filtros-bar">
+    <div class="buscador">
+      🔍 <input placeholder="Buscar..." />
+    </div>
+    <select><option>Todos los estados</option></select>
+    <select><option>Todos</option></select>
+  </div>
 
   <div class="card">
     <table>

@@ -10,6 +10,8 @@ export interface PagoRequest {
 export interface PagoResponse {
   idPago: number;
   idCita: number;
+  nombreMascota: string;
+  nombreCliente: string;
   metodoPago: string;
   monto: number;
   fechaPago: string;

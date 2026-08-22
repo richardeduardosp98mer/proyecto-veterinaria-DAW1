@@ -56,13 +56,21 @@ public class PagoService {
     }
 
     private PagoResponse toResponse(Pago pago) {
+        String nombreMascota = pago.getCita().getMascota().getNombreMascota();
+
+        String nombreCliente = pago.getCita().getMascota().getCliente().getUsuario().getNombre() + " "
+                + pago.getCita().getMascota().getCliente().getUsuario().getApellido();
+
         return new PagoResponse(
                 pago.getIdPago(),
                 pago.getCita().getIdCita(),
+                nombreMascota,
+                nombreCliente,
                 pago.getMetodoPago().getNombreMetodoPago(),
                 pago.getMonto(),
                 pago.getFechaPago(),
                 pago.getReferencia()
         );
+
     }
 }

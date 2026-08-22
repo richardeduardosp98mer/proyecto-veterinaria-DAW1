@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page" style="margin-left: 210px">
   <h2>Pagos</h2>
 
   <app-gestion-tabs [tabs]="[
@@ -28,11 +28,13 @@
   <div class="card">
     <table>
       <thead>
-      <tr><th>Fecha</th><th>Método</th><th>Monto</th><th>Referencia</th><th>Acciones</th></tr>
+      <tr><th>Fecha</th><th>Cliente</th><th>Mascota</th><th>Método</th><th>Monto</th><th>Referencia</th><th>Acciones</th></tr>
       </thead>
       <tbody>
       <tr *ngFor="let p of pagos">
         <td>{{ p.fechaPago | date:'short' }}</td>
+        <td>{{ p.nombreCliente }}</td>
+        <td>{{ p.nombreMascota }}</td>
         <td>{{ p.metodoPago }}</td>
         <td>S/ {{ p.monto }}</td>
         <td>{{ p.referencia }}</td>
@@ -41,7 +43,7 @@
         </td>
       </tr>
       <tr *ngIf="pagos.length === 0">
-        <td colspan="5">Selecciona una cita para ver sus pagos.</td>
+        <td colspan="7">Selecciona una cita para ver sus pagos.</td>
       </tr>
       </tbody>
     </table>

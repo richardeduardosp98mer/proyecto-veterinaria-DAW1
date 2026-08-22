@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page" style="margin-left: 210px">
   <h2>Dashboard</h2>
   <p class="page-subtitle">Resumen general de la clínica.</p>
 
@@ -17,14 +17,14 @@
     </div>
   </div>
 
-  <div class="card">
-    <h3>Estado de citas</h3>
-    <div class="estado-resumen">
-      <div class="estado-item" *ngFor="let e of resumenEstados">
-        <span [class]="'badge badge-' + e.estado.toLowerCase()">{{ e.estado }}</span>
-        <strong>{{ e.cantidad }}</strong>
-      </div>
-      <p *ngIf="resumenEstados.length === 0">Todavía no hay citas registradas.</p>
+  <div class="charts-row">
+    <div class="card chart-card">
+      <h3>Citas por día</h3>
+      <canvas #barChart></canvas>
+    </div>
+    <div class="card chart-card">
+      <h3>Estado de citas</h3>
+      <canvas #donutChart></canvas>
     </div>
   </div>
 
