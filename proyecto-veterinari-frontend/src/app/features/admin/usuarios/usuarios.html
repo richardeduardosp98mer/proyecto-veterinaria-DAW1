@@ -1,6 +1,15 @@
 <div class="page">
   <h2>Usuarios</h2>
 
+  <app-gestion-tabs [tabs]="[
+    { label: 'Citas', path: '/admin/citas' },
+    { label: 'Mascotas', path: '/admin/mascotas' },
+    { label: 'Clientes', path: '/admin/clientes' },
+    { label: 'Veterinarios', path: '/admin/veterinarios' },
+    { label: 'Pagos', path: '/admin/pagos' },
+    { label: 'Historial médico', path: '/admin/historial-medico' }
+  ]"></app-gestion-tabs>
+
   <button class="btn btn-primary" (click)="mostrarForm = !mostrarForm">
     {{ mostrarForm ? 'Cancelar' : '+ Nuevo usuario' }}
   </button>

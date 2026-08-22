@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VeterinarioService } from '../../../services/veterinario';
 import { VeterinarioResponse, RegistroVeterinarioRequest } from '../../../models/veterinario';
+import { GestionTabs } from '../../../shared/gestion-tabs/gestion-tabs';
 
 @Component({
   selector: 'app-veterinarios',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, GestionTabs],
   templateUrl: './veterinarios.html',
   styleUrl: './veterinarios.css',
 })

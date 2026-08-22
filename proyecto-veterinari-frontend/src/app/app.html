@@ -1,2 +1,4 @@
 <app-navbar *ngIf="authService.estaLogueado()"></app-navbar>
-<router-outlet></router-outlet>
+<div class="app-content" [class.with-sidebar]="authService.estaLogueado()">
+  <router-outlet></router-outlet>
+</div>

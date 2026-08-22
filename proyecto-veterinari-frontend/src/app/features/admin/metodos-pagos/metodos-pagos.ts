@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MetodoPago } from '../../../services/metodo-pago';
 import { MetodoPagoResponse } from '../../../models/metodo-pago';
+import { GestionTabs } from '../../../shared/gestion-tabs/gestion-tabs';
 
 @Component({
   selector: 'app-metodos-pagos',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, GestionTabs],
   templateUrl: './metodos-pagos.html',
 })
 export class MetodosPagos {

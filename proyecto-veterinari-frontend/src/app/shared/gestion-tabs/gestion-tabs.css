@@ -1,0 +1,23 @@
+.gestion-tabs {
+  display: flex;
+  gap: 4px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 1.25rem;
+  width: fit-content;
+}
+
+.gestion-tabs a {
+  padding: 7px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #666;
+  text-decoration: none;
+}
+
+.gestion-tabs a.active {
+  background: #1f4d3d;
+  color: #fff;
+  font-weight: 600;
+}

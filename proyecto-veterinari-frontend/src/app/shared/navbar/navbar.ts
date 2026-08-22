@@ -20,6 +20,10 @@ export class Navbar {
     return this.authService.obtenerUsuario();
   }
 
+  inicial(nombre: string): string {
+    return nombre?.charAt(0)?.toUpperCase() ?? '?';
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

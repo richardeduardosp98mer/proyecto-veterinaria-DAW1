@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Servicio } from '../../../services/servicio';
 import { ServicioRequest, ServicioResponse } from '../../../models/servicio';
+import { GestionTabs } from '../../../shared/gestion-tabs/gestion-tabs';
 
 @Component({
   selector: 'app-servicios',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, GestionTabs],
   templateUrl: './servicios.html',
 })
 export class Servicios implements OnInit {
