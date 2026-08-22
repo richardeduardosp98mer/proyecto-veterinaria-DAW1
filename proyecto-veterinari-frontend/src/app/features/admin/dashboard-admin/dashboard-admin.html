@@ -1,16 +1,50 @@
 <div class="page">
-  <h2>Panel de Administración</h2>
+  <h2>Dashboard</h2>
+  <p class="page-subtitle">Resumen general de la clínica.</p>
 
   <div class="dashboard-cards">
     <div class="card">
-      <div class="valor">{{ totalUsuarios }}</div>
-      <div class="label">Usuarios registrados</div>
+      <div class="valor">{{ citasHoy }}</div>
+      <div class="label">Citas hoy</div>
     </div>
     <div class="card">
-      <div class="valor">{{ totalServicios }}</div>
-      <div class="label">Servicios activos</div>
+      <div class="valor">{{ totalMascotas }}</div>
+      <div class="label">Mascotas registradas</div>
+    </div>
+    <div class="card">
+      <div class="valor">{{ totalClientes }}</div>
+      <div class="label">Clientes activos</div>
     </div>
   </div>
 
-  <p>Desde el menú puedes gestionar usuarios, el catálogo de servicios y los métodos de pago.</p>
+  <div class="card">
+    <h3>Estado de citas</h3>
+    <div class="estado-resumen">
+      <div class="estado-item" *ngFor="let e of resumenEstados">
+        <span [class]="'badge badge-' + e.estado.toLowerCase()">{{ e.estado }}</span>
+        <strong>{{ e.cantidad }}</strong>
+      </div>
+      <p *ngIf="resumenEstados.length === 0">Todavía no hay citas registradas.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Actividad reciente</h3>
+    <table>
+      <thead>
+      <tr><th>Fecha</th><th>Mascota</th><th>Veterinario</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of citasRecientes">
+        <td>{{ c.fechaHora | date:'short' }}</td>
+        <td>{{ c.nombreMascota }}</td>
+        <td>{{ c.nombreVeterinario }}</td>
+        <td><span [class]="'badge badge-' + c.estadoCita.toLowerCase()">{{ c.estadoCita }}</span></td>
+      </tr>
+      <tr *ngIf="citasRecientes.length === 0">
+        <td colspan="4">No hay actividad reciente.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

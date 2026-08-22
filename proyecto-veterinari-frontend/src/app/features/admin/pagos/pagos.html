@@ -1,0 +1,49 @@
+<div class="page">
+  <h2>Pagos</h2>
+
+  <app-gestion-tabs [tabs]="[
+    { label: 'Citas', path: '/admin/citas' },
+    { label: 'Mascotas', path: '/admin/mascotas' },
+    { label: 'Clientes', path: '/admin/clientes' },
+    { label: 'Veterinarios', path: '/admin/veterinarios' },
+    { label: 'Pagos', path: '/admin/pagos' },
+    { label: 'Historial médico', path: '/admin/historial-medico' }
+  ]"></app-gestion-tabs>
+
+  <div class="card">
+    <div class="form-row" style="flex-direction: row; align-items: flex-end; gap: 8px;">
+      <div style="flex: 1;">
+        <label>Selecciona una cita para ver sus pagos</label>
+        <select [(ngModel)]="idCitaSeleccionada" name="idCita">
+          <option [value]="null" disabled>Selecciona una cita</option>
+          <option [value]="c.idCita" *ngFor="let c of citas">
+            {{ c.fechaHora | date:'short' }} — {{ c.nombreMascota }}
+          </option>
+        </select>
+      </div>
+      <button class="btn btn-primary" (click)="buscar()">Buscar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Fecha</th><th>Método</th><th>Monto</th><th>Referencia</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of pagos">
+        <td>{{ p.fechaPago | date:'short' }}</td>
+        <td>{{ p.metodoPago }}</td>
+        <td>S/ {{ p.monto }}</td>
+        <td>{{ p.referencia }}</td>
+        <td class="actions">
+          <button class="btn btn-danger" (click)="eliminar(p.idPago)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="pagos.length === 0">
+        <td colspan="5">Selecciona una cita para ver sus pagos.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

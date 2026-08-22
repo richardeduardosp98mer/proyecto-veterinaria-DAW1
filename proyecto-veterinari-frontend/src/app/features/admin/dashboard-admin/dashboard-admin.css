@@ -1,0 +1,22 @@
+.page-subtitle {
+  color: #777;
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 1.5rem;
+}
+
+.estado-resumen {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.estado-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.estado-item strong {
+  font-size: 16px;
+}

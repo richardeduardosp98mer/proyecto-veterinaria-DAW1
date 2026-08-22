@@ -42,6 +42,29 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/admin/veterinarios/veterinarios').then((m) => m.Veterinarios),
       },
+      {
+        path: 'citas',
+        loadComponent: () => import('./features/admin/citas/citas').then((m) => m.Citas),
+      },
+      {
+        path: 'mascotas',
+        loadComponent: () => import('./features/admin/mascotas/mascotas').then((m) => m.Mascotas),
+      },
+      {
+        path: 'clientes',
+        loadComponent: () => import('./features/admin/clientes/clientes').then((m) => m.Clientes),
+      },
+      {
+        path: 'pagos',
+        loadComponent: () => import('./features/admin/pagos/pagos').then((m) => m.Pagos),
+      },
+      {
+        path: 'historial-medico',
+        loadComponent: () =>
+          import('./features/admin/historial-medico/historial-medico').then(
+            (m) => m.HistorialMedico,
+          ),
+      },
     ],
   },
 

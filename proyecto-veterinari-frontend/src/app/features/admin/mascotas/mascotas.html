@@ -1,0 +1,34 @@
+<div class="page">
+  <h2>Mascotas</h2>
+
+  <app-gestion-tabs [tabs]="[
+    { label: 'Citas', path: '/admin/citas' },
+    { label: 'Mascotas', path: '/admin/mascotas' },
+    { label: 'Clientes', path: '/admin/clientes' },
+    { label: 'Veterinarios', path: '/admin/veterinarios' },
+    { label: 'Pagos', path: '/admin/pagos' },
+    { label: 'Historial médico', path: '/admin/historial-medico' }
+  ]"></app-gestion-tabs>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Mascota</th><th>Especie / Raza</th><th>Dueño</th><th>Estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let m of mascotas">
+        <td>{{ m.nombreMascota }}</td>
+        <td>{{ m.especie }} · {{ m.raza }}</td>
+        <td>{{ m.nombreCliente }}</td>
+        <td>{{ m.estado }}</td>
+        <td class="actions">
+          <button class="btn btn-danger" (click)="eliminar(m.idMascota)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="mascotas.length === 0">
+        <td colspan="5">No hay mascotas registradas.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

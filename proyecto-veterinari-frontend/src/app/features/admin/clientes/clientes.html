@@ -1,0 +1,34 @@
+<div class="page">
+  <h2>Clientes</h2>
+
+  <app-gestion-tabs [tabs]="[
+    { label: 'Citas', path: '/admin/citas' },
+    { label: 'Mascotas', path: '/admin/mascotas' },
+    { label: 'Clientes', path: '/admin/clientes' },
+    { label: 'Veterinarios', path: '/admin/veterinarios' },
+    { label: 'Pagos', path: '/admin/pagos' },
+    { label: 'Historial médico', path: '/admin/historial-medico' }
+  ]"></app-gestion-tabs>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Cliente</th><th>Contacto</th><th>DNI</th><th>Dirección</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of clientes">
+        <td>{{ c.nombre }} {{ c.apellido }}</td>
+        <td>{{ c.correo }}<br /><small>{{ c.celular }}</small></td>
+        <td>{{ c.dni }}</td>
+        <td>{{ c.direccion }}</td>
+        <td class="actions">
+          <button class="btn btn-danger" (click)="eliminar(c.idCliente)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="clientes.length === 0">
+        <td colspan="5">No hay clientes registrados.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

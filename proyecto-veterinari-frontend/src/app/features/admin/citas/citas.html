@@ -1,0 +1,34 @@
+<div class="page">
+  <h2>Citas</h2>
+
+  <app-gestion-tabs [tabs]="[
+    { label: 'Citas', path: '/admin/citas' },
+    { label: 'Mascotas', path: '/admin/mascotas' },
+    { label: 'Clientes', path: '/admin/clientes' },
+    { label: 'Veterinarios', path: '/admin/veterinarios' },
+    { label: 'Pagos', path: '/admin/pagos' },
+    { label: 'Historial médico', path: '/admin/historial-medico' }
+  ]"></app-gestion-tabs>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Fecha</th><th>Mascota</th><th>Veterinario</th><th>Estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of citas">
+        <td>{{ c.fechaHora | date:'short' }}</td>
+        <td>{{ c.nombreMascota }}</td>
+        <td>{{ c.nombreVeterinario }}</td>
+        <td><span [class]="badgeClass(c.estadoCita)">{{ c.estadoCita }}</span></td>
+        <td class="actions">
+          <button class="btn btn-danger" *ngIf="c.estadoCita !== 'Cancelada'" (click)="cancelar(c.idCita)">Cancelar</button>
+        </td>
+      </tr>
+      <tr *ngIf="citas.length === 0">
+        <td colspan="5">No hay citas registradas.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

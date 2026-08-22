@@ -1,0 +1,44 @@
+<div class="page">
+  <h2>Historial médico</h2>
+
+  <app-gestion-tabs [tabs]="[
+    { label: 'Citas', path: '/admin/citas' },
+    { label: 'Mascotas', path: '/admin/mascotas' },
+    { label: 'Clientes', path: '/admin/clientes' },
+    { label: 'Veterinarios', path: '/admin/veterinarios' },
+    { label: 'Pagos', path: '/admin/pagos' },
+    { label: 'Historial médico', path: '/admin/historial-medico' }
+  ]"></app-gestion-tabs>
+
+  <div class="card">
+    <div class="form-row" style="flex-direction: row; align-items: flex-end; gap: 8px;">
+      <div style="flex: 1;">
+        <label>Selecciona una mascota</label>
+        <select [(ngModel)]="idMascotaSeleccionada" name="idMascota">
+          <option [value]="null" disabled>Selecciona una mascota</option>
+          <option [value]="m.idMascota" *ngFor="let m of mascotas">{{ m.nombreMascota }} ({{ m.nombreCliente }})</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" (click)="buscar()">Buscar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Fecha</th><th>Diagnóstico</th><th>Tratamiento</th><th>Veterinario</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let h of historial">
+        <td>{{ h.fechaConsulta | date:'short' }}</td>
+        <td>{{ h.diagnostico }}</td>
+        <td>{{ h.tratamiento }}</td>
+        <td>{{ h.nombreVeterinario }}</td>
+      </tr>
+      <tr *ngIf="historial.length === 0">
+        <td colspan="4">Selecciona una mascota para ver su historial.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
