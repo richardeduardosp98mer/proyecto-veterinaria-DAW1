@@ -38,15 +38,15 @@
     <!-- Menú Veterinario -->
     <ng-container *ngIf="authService.tieneRol('Veterinario')">
       <a routerLink="/veterinario/citas" routerLinkActive="active"><span class="nav-icon">🗓</span> Mis citas</a>
+      <a routerLink="/veterinario/mascotas" routerLinkActive="active"><span class="nav-icon">🐾</span> Mascotas</a>
       <a routerLink="/veterinario/historial-medico" routerLinkActive="active"><span class="nav-icon">📋</span> Historial médico</a>
     </ng-container>
 
     <!-- Menú Cliente -->
     <ng-container *ngIf="authService.tieneRol('Cliente')">
-      <a routerLink="/cliente/mis-mascotas" routerLinkActive="active"><span class="nav-icon">🐾</span> Mis mascotas</a>
       <a routerLink="/cliente/mis-citas" routerLinkActive="active"><span class="nav-icon">🗓</span> Mis citas</a>
+      <a routerLink="/cliente/mis-mascotas" routerLinkActive="active"><span class="nav-icon">🐾</span> Mis mascotas</a>
     </ng-container>
-  </nav>
 
   <div class="sidebar-footer" *ngIf="usuario as u">
     <div class="avatar">{{ inicial(u.nombre) }}</div>

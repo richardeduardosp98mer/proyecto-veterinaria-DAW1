@@ -1,11 +1,21 @@
-<div class="page">
-  <h2>Mis citas</h2>
+<div class="page" style="margin-left: 210px">
+  <div class="page-header">
+    <div>
+      <span class="page-eyebrow">— AGENDA CLÍNICA</span>
+      <h2>Citas</h2>
+      <p class="page-subtitle">Gestiona tus citas con la clínica.</p>
+    </div>
+    <button class="btn-nuevo" (click)="mostrarForm = !mostrarForm">
+      {{ mostrarForm ? '× Cancelar' : '+ Nueva cita' }}
+    </button>
+  </div>
 
-  <button class="btn btn-primary" (click)="mostrarForm = !mostrarForm">
-    {{ mostrarForm ? 'Cancelar' : '+ Agendar cita' }}
-  </button>
+  <app-gestion-tabs [tabs]="[
+    { label: 'Citas', path: '/cliente/mis-citas' },
+    { label: 'Mascotas', path: '/cliente/mis-mascotas' }
+  ]"></app-gestion-tabs>
 
-  <div class="card" *ngIf="mostrarForm" style="margin-top: 12px;">
+  <div class="card" *ngIf="mostrarForm" style="margin-bottom: 1rem;">
     <div class="form-grid">
       <div class="form-row">
         <label>Mascota</label>
@@ -35,25 +45,55 @@
     <button class="btn btn-primary" (click)="agendar()">Agendar</button>
   </div>
 
+  <div class="filtros-bar">
+    <div class="buscador">
+      🔍 <input placeholder="Buscar..." [(ngModel)]="texto" (ngModelChange)="aplicarFiltros()" />
+    </div>
+    <select [(ngModel)]="estadoFiltro" (ngModelChange)="aplicarFiltros()">
+      <option *ngFor="let e of estados">{{ e }}</option>
+    </select>
+    <select [(ngModel)]="veterinarioFiltro" (ngModelChange)="aplicarFiltros()">
+      <option>Todos</option>
+      <option *ngFor="let v of veterinarios">{{ v.nombre }} {{ v.apellido }}</option>
+    </select>
+  </div>
+
   <div class="card">
     <table>
       <thead>
       <tr><th>Fecha</th><th>Mascota</th><th>Veterinario</th><th>Estado</th><th>Acciones</th></tr>
       </thead>
       <tbody>
-      <tr *ngFor="let c of citas">
-        <td>{{ c.fechaHora | date:'short' }}</td>
-        <td>{{ c.nombreMascota }}</td>
+      <tr *ngFor="let c of citasPagina">
+        <td>{{ c.fechaHora | date:'d MMM, HH:mm' }}</td>
+        <td>
+          <div class="fila-avatar">
+            <div class="avatar-circulo">{{ inicial(c.nombreMascota) }}</div>
+            <div class="fila-info">
+              <span class="fila-nombre">{{ c.nombreMascota }}</span>
+              <span class="fila-detalle" *ngIf="razaDe(c.idMascota)">{{ razaDe(c.idMascota) }}</span>
+            </div>
+          </div>
+        </td>
         <td>{{ c.nombreVeterinario }}</td>
         <td><span [class]="badgeClass(c.estadoCita)">{{ c.estadoCita }}</span></td>
         <td class="actions">
-          <button class="btn btn-danger" *ngIf="c.estadoCita !== 'Cancelada'" (click)="cancelar(c.idCita)">Cancelar</button>
+          <button class="icon-btn danger" *ngIf="c.estadoCita !== 'Cancelada'" (click)="cancelar(c.idCita)" title="Cancelar">🗑</button>
         </td>
       </tr>
-      <tr *ngIf="citas.length === 0">
-        <td colspan="5">Todavía no tienes citas.</td>
+      <tr *ngIf="citasPagina.length === 0">
+        <td colspan="5">No se encontraron citas.</td>
       </tr>
       </tbody>
     </table>
+
+    <div class="paginacion" *ngIf="citasFiltradas.length > 0">
+      <span>{{ rangoTexto }}</span>
+      <div class="paginas">
+        <div class="pagina-item" (click)="irAPagina(paginaActual - 1)">‹</div>
+        <div class="pagina-item" *ngFor="let p of paginas" [class.activa]="p === paginaActual" (click)="irAPagina(p)">{{ p }}</div>
+        <div class="pagina-item" (click)="irAPagina(paginaActual + 1)">›</div>
+      </div>
+    </div>
   </div>
 </div>

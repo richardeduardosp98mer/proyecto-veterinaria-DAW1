@@ -1,0 +1,69 @@
+<div class="page" style="margin-left: 210px">
+  <div class="page-header">
+    <div>
+      <span class="page-eyebrow">— REGISTRO CLÍNICO</span>
+      <h2>Mascotas</h2>
+      <p class="page-subtitle">Gestiona el módulo de mascotas de la clínica.</p>
+    </div>
+  </div>
+
+  <app-gestion-tabs [tabs]="[
+    { label: 'Citas', path: '/veterinario/citas' },
+    { label: 'Mascotas', path: '/veterinario/mascotas' },
+    { label: 'Historial médico', path: '/veterinario/historial-medico' }
+  ]"></app-gestion-tabs>
+
+  <div class="filtros-bar">
+    <div class="buscador">
+      🔍 <input placeholder="Buscar..." [(ngModel)]="texto" (ngModelChange)="aplicarFiltros()" />
+    </div>
+    <select [(ngModel)]="estadoFiltro" (ngModelChange)="aplicarFiltros()">
+      <option>Todos los estados</option>
+      <option>Activo</option>
+      <option>Inactivo</option>
+    </select>
+    <select [(ngModel)]="especieFiltro" (ngModelChange)="aplicarFiltros()">
+      <option>Todas</option>
+      <option *ngFor="let e of especies">{{ e }}</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Mascota</th><th>Especie / Raza</th><th>Dueño</th><th>Estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let m of mascotasPagina">
+        <td class="fila-nombre">{{ m.nombreMascota }}</td>
+        <td>
+          <div class="fila-avatar">
+            <div class="avatar-circulo">{{ inicial(m.especie) }}</div>
+            <div class="fila-info">
+              <span class="fila-nombre">{{ m.especie }}</span>
+              <span class="fila-detalle">{{ m.raza }} · {{ edad(m.fechaNacimiento) }} · {{ m.peso }}kg</span>
+            </div>
+          </div>
+        </td>
+        <td><span class="texto-enlace">{{ m.nombreCliente }}</span></td>
+        <td><span [class]="badgeClass(m.estado)">{{ m.estado }}</span></td>
+        <td class="actions">
+          <button class="icon-btn" (click)="verHistorial(m.idMascota)" title="Ver historial médico">📋</button>
+        </td>
+      </tr>
+      <tr *ngIf="mascotasPagina.length === 0">
+        <td colspan="5">No se encontraron mascotas.</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="paginacion" *ngIf="mascotasFiltradas.length > 0">
+      <span>{{ rangoTexto }}</span>
+      <div class="paginas">
+        <div class="pagina-item" (click)="irAPagina(paginaActual - 1)">‹</div>
+        <div class="pagina-item" *ngFor="let p of paginas" [class.activa]="p === paginaActual" (click)="irAPagina(p)">{{ p }}</div>
+        <div class="pagina-item" (click)="irAPagina(paginaActual + 1)">›</div>
+      </div>
+    </div>
+  </div>
+</div>

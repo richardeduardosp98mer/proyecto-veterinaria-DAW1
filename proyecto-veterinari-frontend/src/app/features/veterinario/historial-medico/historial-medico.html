@@ -1,65 +1,102 @@
-<div class="page">
-  <h2>Historial médico</h2>
-
-  <div class="card">
-    <div class="form-row" style="flex-direction: row; align-items: flex-end; gap: 8px;">
-      <div style="flex: 1;">
-        <label>ID de la mascota</label>
-        <input [(ngModel)]="idMascotaBuscar" name="idMascotaBuscar" type="number" />
-      </div>
-      <button class="btn btn-primary" (click)="buscar()">Buscar</button>
+<div class="page" style="margin-left: 210px">
+  <div class="page-header">
+    <div>
+      <span class="page-eyebrow">— FICHAS CLÍNICAS</span>
+      <h2>Historial médico</h2>
+      <p class="page-subtitle">Gestiona el módulo de historial médico de la clínica.</p>
     </div>
+    <button class="btn-nuevo" (click)="mostrarForm = !mostrarForm">
+      {{ mostrarForm ? '× Cancelar' : '+ Nuevo registro' }}
+    </button>
   </div>
 
-  <ng-container *ngIf="buscado">
-    <button class="btn btn-primary" (click)="mostrarForm = !mostrarForm">
-      {{ mostrarForm ? 'Cancelar' : '+ Nueva consulta' }}
-    </button>
+  <app-gestion-tabs [tabs]="[
+    { label: 'Citas', path: '/veterinario/citas' },
+    { label: 'Mascotas', path: '/veterinario/mascotas' },
+    { label: 'Historial médico', path: '/veterinario/historial-medico' }
+  ]"></app-gestion-tabs>
 
-    <div class="card" *ngIf="mostrarForm" style="margin-top: 12px;">
-      <div class="form-grid">
-        <div class="form-row">
-          <label>Peso (kg)</label>
-          <input [(ngModel)]="form.peso" name="peso" type="number" step="0.1" />
-        </div>
-        <div class="form-row">
-          <label>Temperatura (°C)</label>
-          <input [(ngModel)]="form.temperatura" name="temperatura" type="number" step="0.1" />
-        </div>
+  <div class="card" *ngIf="mostrarForm" style="margin-bottom: 1rem;">
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Mascota</label>
+        <select [(ngModel)]="form.idMascota" name="idMascota">
+          <option [value]="0" disabled>Selecciona una mascota</option>
+          <option [value]="m.idMascota" *ngFor="let m of mascotas">
+            {{ m.nombreMascota }} — {{ m.nombreCliente }}
+          </option>
+        </select>
       </div>
       <div class="form-row">
-        <label>Diagnóstico</label>
-        <textarea [(ngModel)]="form.diagnostico" name="diagnostico" rows="2"></textarea>
+        <label>Peso (kg)</label>
+        <input [(ngModel)]="form.peso" name="peso" type="number" step="0.1" />
       </div>
       <div class="form-row">
-        <label>Tratamiento</label>
-        <textarea [(ngModel)]="form.tratamiento" name="tratamiento" rows="2"></textarea>
+        <label>Temperatura (°C)</label>
+        <input [(ngModel)]="form.temperatura" name="temperatura" type="number" step="0.1" />
       </div>
-      <div class="form-row">
-        <label>Observaciones</label>
-        <textarea [(ngModel)]="form.observaciones" name="observaciones" rows="2"></textarea>
-      </div>
-      <button class="btn btn-primary" (click)="guardar()">Guardar consulta</button>
     </div>
+    <div class="form-row">
+      <label>Diagnóstico</label>
+      <textarea [(ngModel)]="form.diagnostico" name="diagnostico" rows="2"></textarea>
+    </div>
+    <div class="form-row">
+      <label>Tratamiento</label>
+      <textarea [(ngModel)]="form.tratamiento" name="tratamiento" rows="2"></textarea>
+    </div>
+    <div class="form-row">
+      <label>Observaciones</label>
+      <textarea [(ngModel)]="form.observaciones" name="observaciones" rows="2"></textarea>
+    </div>
+    <button class="btn btn-primary" (click)="guardar()">Guardar consulta</button>
+  </div>
 
-    <div class="card">
-      <table>
-        <thead>
-        <tr><th>Fecha</th><th>Diagnóstico</th><th>Tratamiento</th><th>Peso</th><th>Temp.</th></tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let h of historial">
-          <td>{{ h.fechaConsulta | date:'short' }}</td>
-          <td>{{ h.diagnostico }}</td>
-          <td>{{ h.tratamiento }}</td>
-          <td>{{ h.peso }} kg</td>
-          <td>{{ h.temperatura }} °C</td>
-        </tr>
-        <tr *ngIf="historial.length === 0">
-          <td colspan="5">Esta mascota no tiene historial registrado.</td>
-        </tr>
-        </tbody>
-      </table>
+  <div class="filtros-bar">
+    <div class="buscador">
+      🔍 <input placeholder="Buscar..." [(ngModel)]="texto" (ngModelChange)="aplicarFiltros()" />
     </div>
-  </ng-container>
+    <select [(ngModel)]="mascotaFiltro" (ngModelChange)="aplicarFiltros()">
+      <option [value]="0">Todas las mascotas</option>
+      <option [value]="m.idMascota" *ngFor="let m of mascotas">{{ m.nombreMascota }}</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+      <tr><th>Fecha</th><th>Mascota</th><th>Diagnóstico</th><th>Tratamiento</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let h of historialPagina">
+        <td>{{ h.fechaConsulta | date:'d MMM, HH:mm' }}</td>
+        <td>
+          <div class="fila-avatar">
+            <div class="avatar-circulo">{{ inicial(h.nombreMascota) }}</div>
+            <span class="fila-nombre">{{ h.nombreMascota }}</span>
+          </div>
+        </td>
+        <td>{{ h.diagnostico }}</td>
+        <td>{{ h.tratamiento }}</td>
+        <td class="actions">
+          <button class="icon-btn danger" (click)="eliminar(h.idHistorial)" title="Eliminar">🗑</button>
+        </td>
+      </tr>
+      <tr *ngIf="!cargando && historialPagina.length === 0">
+        <td colspan="5">No hay registros en el historial médico.</td>
+      </tr>
+      <tr *ngIf="cargando">
+        <td colspan="5">Cargando historial médico…</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="paginacion" *ngIf="historialFiltrado.length > 0">
+      <span>{{ rangoTexto }}</span>
+      <div class="paginas">
+        <div class="pagina-item" (click)="irAPagina(paginaActual - 1)">‹</div>
+        <div class="pagina-item" *ngFor="let p of paginas" [class.activa]="p === paginaActual" (click)="irAPagina(p)">{{ p }}</div>
+        <div class="pagina-item" (click)="irAPagina(paginaActual + 1)">›</div>
+      </div>
+    </div>
+  </div>
 </div>

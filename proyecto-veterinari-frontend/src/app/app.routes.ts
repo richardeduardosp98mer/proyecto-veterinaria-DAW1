@@ -87,6 +87,13 @@ export const routes: Routes = [
           import('./features/veterinario/citas-vet/citas-vet').then((m) => m.CitasVetComponent),
       },
       {
+        path: 'mascotas',
+        loadComponent: () =>
+          import('./features/veterinario/mascotas-vet/mascotas-vet').then(
+            (m) => m.MascotasVetComponent,
+          ),
+      },
+      {
         path: 'citas/:id/atender',
         loadComponent: () =>
           import('./features/veterinario/atender-cita/atender-cita').then((m) => m.AtenderCita),

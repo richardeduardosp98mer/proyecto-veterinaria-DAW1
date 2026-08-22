@@ -1,14 +1,33 @@
-<div class="page">
-  <h2>Mi panel</h2>
+<div class="page" style="margin-left: 210px">
+  <h2>Dashboard</h2>
+  <p class="page-subtitle">Resumen de tu cuenta · hoy, {{ hoyTexto }}</p>
 
   <div class="dashboard-cards">
     <div class="card">
-      <div class="valor">{{ totalMascotas }}</div>
-      <div class="label">Mis mascotas</div>
+      <div class="card-icon icon-teal">🗓</div>
+      <div class="label">Citas hoy</div>
+      <div class="valor">{{ citasHoy }}</div>
     </div>
     <div class="card">
-      <div class="valor">{{ proximasCitas.length }}</div>
+      <div class="card-icon icon-orange">🐾</div>
+      <div class="label">Mis mascotas</div>
+      <div class="valor">{{ totalMascotas }}</div>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-blue">📅</div>
       <div class="label">Próximas citas</div>
+      <div class="valor">{{ proximasCitas.length }}</div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="card chart-card">
+      <h3>Citas por día</h3>
+      <canvas #barChart></canvas>
+    </div>
+    <div class="card chart-card">
+      <h3>Estado de mis citas</h3>
+      <canvas #donutChart></canvas>
     </div>
   </div>
 
@@ -21,9 +40,14 @@
       <tbody>
       <tr *ngFor="let c of proximasCitas">
         <td>{{ c.fechaHora | date:'short' }}</td>
-        <td>{{ c.nombreMascota }}</td>
+        <td>
+          <div class="fila-avatar">
+            <div class="avatar-circulo">{{ inicial(c.nombreMascota) }}</div>
+            <span class="fila-nombre">{{ c.nombreMascota }}</span>
+          </div>
+        </td>
         <td>{{ c.nombreVeterinario }}</td>
-        <td>{{ c.estadoCita }}</td>
+        <td><span [class]="badgeClass(c.estadoCita)">{{ c.estadoCita }}</span></td>
       </tr>
       <tr *ngIf="proximasCitas.length === 0">
         <td colspan="4">No tienes citas próximas.</td>
